@@ -1,0 +1,50 @@
+{
+  "name": "content_recommendation_wf",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "2e1f6810-7246-40de-85d8-23f9f09d25f6",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -176,
+        -80
+      ],
+      "id": "f5f18c79-b0cd-486f-8f82-f3b5cd46cf6e",
+      "name": "Webhook",
+      "webhookId": "2e1f6810-7246-40de-85d8-23f9f09d25f6"
+    },
+    {
+      "parameters": {
+        "projectId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleBigQuery",
+      "typeVersion": 2.1,
+      "position": [
+        32,
+        -80
+      ],
+      "id": "5acd7c79-001b-4841-a304-786696af6796",
+      "name": "Execute a SQL query"
+    }
+  ],
+  "pinData": {},
+  "connections": {},
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "7daab3ec-76e7-489c-b1a1-7ddf9eba234f",
+  "meta": {
+    "instanceId": "c1b59109af2c2afce8bd5bf1c9d0b65ab33c6366613d260dbe8bc699a1380574"
+  },
+  "id": "Dxh5Z5kmBfUgY10k",
+  "tags": []
+}
