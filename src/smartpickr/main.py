@@ -39,5 +39,5 @@ if __name__ == "__main__":
     if not controller.finished_ratings():
         current_anime = controller.get_current_anime()
         result = AnimeView.render(**asdict(current_anime))
-        if result["liked"] and controller.rate_anime(**result):
+        if result["liked"] is not None and controller.rate_anime(**result):
             st.rerun()
