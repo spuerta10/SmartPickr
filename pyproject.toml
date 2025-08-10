@@ -1,0 +1,10 @@
+[project]
+name = "smartpickr"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "streamlit>=1.48.0",
+    "streamlit-product-card>=1.0.0",
+]
