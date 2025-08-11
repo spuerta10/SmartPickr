@@ -1,6 +1,4 @@
 from dataclasses import dataclass
-from streamlit_product_card import product_card
-from streamlit import container, image, subheader, write, columns, button
 
 @dataclass
 class Anime:

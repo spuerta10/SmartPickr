@@ -1,7 +1,7 @@
 from streamlit_product_card import product_card
 import streamlit as st
 
-from view.base import BaseView
+from shared.views.base import BaseView
 
 class AnimeView(BaseView):
     # @override
