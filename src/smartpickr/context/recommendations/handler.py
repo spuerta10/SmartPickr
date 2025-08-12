@@ -2,28 +2,16 @@ from dataclasses import asdict
 
 import streamlit as st
 
-from model.anime import Anime
 from context.recommendations.controller import RecommendationsController 
+from context.recommendations.views.loading import LoadingView
+from context.manager import AppContextManager, AppContext
 from shared.views.anime import AnimeView
 
-RECOMMENDATIONS: list[Anime] = [
-    Anime(
-        id=4,
-        title="Fullmetal Alchemist: Brotherhood",
-        description="A saiyan’s journey.",
-        image_url="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/025260e7ab620e093bff1233dd78629d.jpg",
-        seasons=1,
-        episodes=64
-    ),
-    Anime(
-        id=5,
-        title="Neon Genesis Evangelion",
-        description="A saiyan’s journey.",
-        image_url="https://wiki.evageeks.org/images/thumb/c/ca/26_C343_shinji-grin.jpg/260px-26_C343_shinji-grin.jpg",
-        seasons=1,
-        episodes=26
-    ),
-]
+def handle_load() -> None:
+    controller = RecommendationsController()
+    LoadingView.render(controller=controller)
+    AppContextManager.on_context_complete(AppContext.LOADING)
+
 
 def handle_recommendations() -> None:
     """Display and process anime recommendations.
@@ -44,12 +32,14 @@ def handle_recommendations() -> None:
     Returns:
         None
     """
-    recommendations_controller = RecommendationsController(animes=RECOMMENDATIONS)
-    if not recommendations_controller.finished_ratings():
-        current_anime = recommendations_controller.get_current_anime()
+    controller = RecommendationsController()
+    if not controller.finished_ratings():
+        current_anime = controller.get_current_anime()
         result = AnimeView.render(**asdict(current_anime))
         if result["liked"] is not None: 
-            if recommendations_controller.rate_anime(**result):
+            if controller.rate_anime(**result):
+                recommendations: list = controller.get_recommendations(2)
+                controller.add_recommendations(recommendations)
                 st.rerun()  # next recommendation anime
         else:
             print("Finished all ratings!")

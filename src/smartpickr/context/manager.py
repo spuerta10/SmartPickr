@@ -86,6 +86,6 @@ class AppContextManager:
             current_context (AppContext): The context to mark as complete.
         """
         if current_context in cls.DEFAULT_WORKFLOW:
-            cls.DEFAULT_WORKFLOW.remove(current_context)
-        print(cls.DEFAULT_WORKFLOW)
+            current_index: int = cls.DEFAULT_WORKFLOW.index(current_context)
+            cls.__set_context(cls.DEFAULT_WORKFLOW[current_index + 1])
         cls.__set_context(cls.DEFAULT_WORKFLOW[0])

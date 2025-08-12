@@ -49,7 +49,7 @@ class BaseController:
             Anime | None: The current `Anime` instance, or `None` if all animes
             have been rated.
         """
-        if st.session_state[self.session_key] < len(self.animes):
+        if st.session_state[self.session_key] < len(self.animes):  # TODO: do a pop would be better 
             return self.animes[st.session_state[self.session_key]]
         return None
     
