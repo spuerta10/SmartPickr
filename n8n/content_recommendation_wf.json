@@ -12,8 +12,8 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        0,
-        0
+        -208,
+        256
       ],
       "id": "c3c24e71-329a-4533-b8c6-5471320faac8",
       "name": "Webhook",
@@ -21,31 +21,169 @@
     },
     {
       "parameters": {
-        "projectId": {
-          "__rl": true,
-          "mode": "list",
-          "value": ""
+        "assignments": {
+          "assignments": [
+            {
+              "id": "61cbb276-d1b1-4cd1-9f08-78552c46fe42",
+              "name": "animes_id",
+              "value": "={{ $json.body.ratings.map(rating => rating.anime_id) }}",
+              "type": "array"
+            }
+          ]
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.googleBigQuery",
-      "typeVersion": 2.1,
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
       "position": [
-        208,
-        0
+        16,
+        160
       ],
-      "id": "c8cecef2-4bc2-46d8-899e-e4b677fbb7ac",
-      "name": "Execute a SQL query"
+      "id": "7d39a723-10e3-4d5a-a2e0-ca48000b7e16",
+      "name": "Fetch animes ids"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "61cbb276-d1b1-4cd1-9f08-78552c46fe42",
+              "name": "ratings",
+              "value": "={{ $json.body.ratings }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        352
+      ],
+      "id": "2295c89a-b3e2-486c-b663-46d13332a114",
+      "name": "Get ratings"
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "mock_animes: list[dict] = [\n  {\n    \"id\": 4,\n    \"title\": \"Fullmetal Alchemist: Brotherhood\",\n    \"description\": \"A saiyan’s journey.\",\n    \"image_url\": \"https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/025260e7ab620e093bff1233dd78629d.jpg\",\n    \"seasons\": 1,\n    \"episodes\": 64\n  },\n  {\n    \"id\": 5,\n    \"title\": \"Neon Genesis Evangelion\",\n    \"description\": \"A saiyan’s journey.\",\n    \"image_url\": \"https://wiki.evageeks.org/images/thumb/c/ca/26_C343_shinji-grin.jpg/260px-26_C343_shinji-grin.jpg\",\n    \"seasons\": 1,\n    \"episodes\": 26\n  },\n  {\n    \"id\": 6,\n    \"title\": \"Attack on Titan\",\n    \"description\": \"Humanity fights for survival against man-eating titans.\",\n    \"image_url\": \"https://m.media-amazon.com/images/I/81lpsT0vErL._AC_UF1000,1000_QL80_.jpg\",\n    \"seasons\": 4,\n    \"episodes\": 87\n  },\n  {\n    \"id\": 7,\n    \"title\": \"Death Note\",\n    \"description\": \"A student discovers a notebook that can kill anyone whose name is written in it.\",\n    \"image_url\": \"https://m.media-amazon.com/images/I/81U3d6j3XUL._AC_UF894,1000_QL80_.jpg\",\n    \"seasons\": 1,\n    \"episodes\": 37\n  },\n  {\n    \"id\": 8,\n    \"title\": \"Demon Slayer: Kimetsu no Yaiba\",\n    \"description\": \"A boy becomes a demon slayer after his family is slaughtered.\",\n    \"image_url\": \"https://m.media-amazon.com/images/I/91P8OkfRcpL._AC_UF1000,1000_QL80_.jpg\",\n    \"seasons\": 3,\n    \"episodes\": 55\n  },\n  {\n    \"id\": 9,\n    \"title\": \"One Punch Man\",\n    \"description\": \"A hero who can defeat any opponent with a single punch seeks a worthy challenge.\",\n    \"image_url\": \"https://m.media-amazon.com/images/I/71fY+qdyJzL._AC_UF894,1000_QL80_.jpg\",\n    \"seasons\": 2,\n    \"episodes\": 24\n  },\n  {\n    \"id\": 10,\n    \"title\": \"My Hero Academia\",\n    \"description\": \"In a world of superheroes, a boy without powers dreams of becoming a hero.\",\n    \"image_url\": \"https://m.media-amazon.com/images/I/81ZCrPhrBIL._AC_UF1000,1000_QL80_.jpg\",\n    \"seasons\": 6,\n    \"episodes\": 138\n  }\n]\n\nreturn mock_animes\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        160
+      ],
+      "id": "f0bb9bf4-a8d2-4e7a-8e36-ee930f1acf54",
+      "name": "BQ mock response"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "fieldsToMatchString": "id",
+        "joinMode": "keepEverything",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        464,
+        256
+      ],
+      "id": "5cfd4e6e-9231-4614-87ff-a5df892563f0",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "const ratings = $input.first().json.ratings || $input.last().json.ratings;\nconst ratingsMap = Object.fromEntries(\n  ratings.map(r => [r.anime_id, r.liked])\n);\n  \nreturn $input.all()\n  .filter(item => !item.json.ratings) // Only keep items that DON'T have ratings property\n  .map(item => ({\n    json: {\n      ...item.json,\n      liked: ratingsMap[item.json.id] || \"False\"\n    }\n  }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        688,
+        256
+      ],
+      "id": "11351c20-e796-4930-9944-6e9b72bf1d05",
+      "name": "Add like prop to BQ response"
     }
   ],
   "pinData": {},
-  "connections": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get ratings",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Fetch animes ids",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch animes ids": {
+      "main": [
+        [
+          {
+            "node": "BQ mock response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get ratings": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "BQ mock response": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Add like prop to BQ response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add like prop to BQ response": {
+      "main": [
+        []
+      ]
+    }
+  },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "c959047d-c671-4d9d-9235-5c4f8bfcc315",
+  "versionId": "d97e7743-6a20-4666-b8ce-b82c3bd3879c",
   "meta": {
+    "templateCredsSetupCompleted": true,
     "instanceId": "c1b59109af2c2afce8bd5bf1c9d0b65ab33c6366613d260dbe8bc699a1380574"
   },
   "id": "oTPudxBpWs9xjTT7",
