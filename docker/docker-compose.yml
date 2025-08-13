@@ -16,6 +16,8 @@ services:
       context: ..
       dockerfile: docker/Dockerfile.smartpickr
     container_name: smartpickr-front
+    ports:
+      - "8501:8501"
     depends_on:
       - n8n
     networks:
