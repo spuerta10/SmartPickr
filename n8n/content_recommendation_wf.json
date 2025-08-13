@@ -3,16 +3,19 @@
   "nodes": [
     {
       "parameters": {
+        "httpMethod": "POST",
         "path": "2e1f6810-7246-40de-85d8-23f9f09d25f6",
-        "options": {}
+        "options": {
+          "rawBody": true
+        }
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -176,
-        -80
+        0,
+        0
       ],
-      "id": "f5f18c79-b0cd-486f-8f82-f3b5cd46cf6e",
+      "id": "c3c24e71-329a-4533-b8c6-5471320faac8",
       "name": "Webhook",
       "webhookId": "2e1f6810-7246-40de-85d8-23f9f09d25f6"
     },
@@ -28,10 +31,10 @@
       "type": "n8n-nodes-base.googleBigQuery",
       "typeVersion": 2.1,
       "position": [
-        32,
-        -80
+        208,
+        0
       ],
-      "id": "5acd7c79-001b-4841-a304-786696af6796",
+      "id": "c8cecef2-4bc2-46d8-899e-e4b677fbb7ac",
       "name": "Execute a SQL query"
     }
   ],
@@ -41,10 +44,10 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "7daab3ec-76e7-489c-b1a1-7ddf9eba234f",
+  "versionId": "c959047d-c671-4d9d-9235-5c4f8bfcc315",
   "meta": {
     "instanceId": "c1b59109af2c2afce8bd5bf1c9d0b65ab33c6366613d260dbe8bc699a1380574"
   },
-  "id": "Dxh5Z5kmBfUgY10k",
+  "id": "oTPudxBpWs9xjTT7",
   "tags": []
 }
