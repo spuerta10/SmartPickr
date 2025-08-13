@@ -8,3 +8,19 @@ services:
     restart: unless-stopped
     stdin_open: true
     tty: true
+    networks:
+      - smartpickr-net
+  
+  smartpickr-front:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.smartpickr
+    container_name: smartpickr-front
+    depends_on:
+      - n8n
+    networks:
+      - smartpickr-net
+  
+networks:
+  smartpickr-net:
+    driver: bridge
