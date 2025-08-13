@@ -1,0 +1,18 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+RUN pip install uv
+COPY pyproject.toml .
+RUN uv sync
+
+# use the virtual env
+ENV PATH="/app/.venv/bin:$PATH"
+
+COPY src/smartpickr/ ./src/smartpickr/
+
+ENV PORT=8501
+
+EXPOSE 8501
+
+ENTRYPOINT streamlit run src/smartpickr/main.py --server.port $PORT --server.address=0.0.0.0
