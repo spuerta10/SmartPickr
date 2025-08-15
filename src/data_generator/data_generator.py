@@ -7,7 +7,7 @@ import hashlib
 import os
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-XML_PATH = os.path.join(SCRIPT_DIR, "animelist_1755260397_-_10513306.xml")
+XML_PATH = os.path.join(SCRIPT_DIR, "in/animelist_1755260397_-_10513306.xml")
 
 DELAY = 2.5
 mal.config.TIMEOUT = 30
@@ -87,14 +87,14 @@ def main():
         print(f'[{i}/{len(anime_list)}] {anime["title"]} procesado')
         sleep(DELAY)
     # Guardar en JSON
-    json_path = os.path.join(SCRIPT_DIR, "mock_animes.json")
+    json_path = os.path.join(SCRIPT_DIR, "out/mock_animes.json")
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(mock_animes, f, ensure_ascii=False, indent=4)
     print(f"Datos guardados en {json_path}")
 
     # Guardar en TXT en una sola línea estilo Python
     txt_content = f"mock_animes: list[dict] = {json.dumps(mock_animes, ensure_ascii=False)}\nreturn mock_animes"
-    txt_path = os.path.join(SCRIPT_DIR, "mock_animes.txt")
+    txt_path = os.path.join(SCRIPT_DIR, "out/mock_animes.txt")
     with open(txt_path, "w", encoding="utf-8") as f:
         f.write(txt_content)
     print(f"Datos guardados en {txt_path} (formato copiable)")
