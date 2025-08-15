@@ -3,25 +3,6 @@
   "nodes": [
     {
       "parameters": {
-        "httpMethod": "POST",
-        "path": "2e1f6810-7246-40de-85d8-23f9f09d25f6",
-        "responseMode": "responseNode",
-        "options": {
-          "rawBody": true
-        }
-      },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2.1,
-      "position": [
-        -224,
-        -96
-      ],
-      "id": "71c2e7be-8a2a-4096-bf50-3883fa03cb7b",
-      "name": "Webhook",
-      "webhookId": "2e1f6810-7246-40de-85d8-23f9f09d25f6"
-    },
-    {
-      "parameters": {
         "assignments": {
           "assignments": [
             {
@@ -37,10 +18,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        0,
-        -192
+        -144,
+        488
       ],
-      "id": "f09edcbf-6947-4e3c-907e-185ea59766dc",
+      "id": "edf23063-3404-41c6-9753-a52f6ce1e1bf",
       "name": "Fetch animes ids"
     },
     {
@@ -60,10 +41,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        224,
-        0
+        80,
+        680
       ],
-      "id": "4a7c0d8e-bb82-4731-b4f2-70e1f2dbfd65",
+      "id": "c50d4f99-a740-471d-920c-2a5ed2d177fb",
       "name": "Get ratings"
     },
     {
@@ -76,10 +57,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        448,
-        -96
+        304,
+        584
       ],
-      "id": "7fdbf5a3-ae9a-4ed9-80b4-9f4fd6c79237",
+      "id": "209bc668-d200-45ca-9d98-0c54ee6cfd5c",
       "name": "Merge"
     },
     {
@@ -90,10 +71,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        224,
-        -192
+        80,
+        488
       ],
-      "id": "de0dab2f-42fa-42a4-bce2-ef5669cbf58a",
+      "id": "cef2ecd5-97ad-4b49-8127-6585b265bf65",
       "name": "Get rated animes info (mocked BQ response)"
     },
     {
@@ -103,25 +84,25 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        672,
-        -96
+        528,
+        584
       ],
-      "id": "03dd6801-8a6e-47b2-801e-645ee085cfb5",
+      "id": "e13a47e8-dd08-4708-b748-6968a7bb16bf",
       "name": "Add like prop to rated animes"
     },
     {
       "parameters": {
         "content": "# Rated animes",
-        "height": 464,
+        "height": 480,
         "width": 960
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -96,
-        -304
+        -240,
+        360
       ],
       "typeVersion": 1,
-      "id": "dcc66c4c-92e2-47ab-acc0-c46a610becff",
+      "id": "d3fc1613-c4ff-4e1d-ae21-b11bf86937dd",
       "name": "Sticky Note"
     },
     {
@@ -131,10 +112,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        896,
-        -96
+        752,
+        584
       ],
-      "id": "0bcf4f08-a0e0-4af6-b1ab-64e9b8c422c3",
+      "id": "c938e152-d56a-47a7-b548-d415af50ae14",
       "name": "Join user anime ratings"
     },
     {
@@ -145,10 +126,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1344,
-        -96
+        1200,
+        584
       ],
-      "id": "abc905cc-f6ce-4c2a-b7f0-e6cf76ba8717",
+      "id": "0778ff05-ef2d-440d-8d8c-bf425ae72abb",
       "name": "Join BQ anime base"
     },
     {
@@ -159,26 +140,26 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1120,
-        -96
+        976,
+        584
       ],
-      "id": "cfa5c388-dc47-4e0d-968f-dec9aff58ded",
+      "id": "685154c2-ae68-4bd1-ab1f-e9ad195ae6be",
       "name": "Get all animes (mocked BQ response)"
     },
     {
       "parameters": {
         "promptType": "define",
-        "text": "=SYSTEM (role = Anime Recommender)\nYou are an anime recommender that selects titles ONLY from the provided `anime_base`.  \nYour goal: infer the user's taste from `user_ratings` and return the top {{$('Webhook').first().json.body.n_recommendations}} anime from `anime_base` ranked by how well they match those preferences.  \nDo NOT reveal your internal reasoning process or step-by-step thoughts.\n\nCOSTAR\n- Context:\n  * anime_base: A list of anime objects with fields: id, title, description, seasons, episodes, genres.\n  * user_ratings: A list of anime the user has rated (may NOT be in anime_base), with fields: title, rating, reasons.\n  The rated items provide clues about preferred and disliked attributes.\n- Objective: Recommend the top {{ $('Webhook').first().json.body.n_recommendations }} anime from anime_base that best match the user's positive preferences while avoiding disfavored traits.\n- Style: Strictly JSON output, no natural language.\n- Tone: Neutral and concise.\n- Audience: Machine consumer.\n- Response: Only valid JSON following the OUTPUT SCHEMA.\n\nRAG-like method (adapted for small base):\n1) Extract preference signals from `user_ratings`:\n   - Positive set: ratings ≥ 4\n   - Negative set: ratings ≤ 2\n   - Infer preferred genres, themes, tone from positives; disfavored ones from negatives.\n2) Score each anime in `anime_base` for similarity to positive profile and dissimilarity to negative profile.\n3) Sort descending by score, select top {{$('Webhook').first().json.body.n_recommendations}}.\n\nScoring rubric:\nscore = 100 * (\n  0.5 * GenreThemeMatch +\n  0.3 * ToneMatch +\n  0.1 * Novelty (not similar to negatives) +\n  0.1 * LengthFit\n)\n\nINPUTS\nanime_base = {{ $('Join BQ anime base').first().json.toJsonString() }}\nuser_ratings = {{ $('Join user anime ratings').first().json.toJsonString()}}\nparams:\n  POS_THRESHOLD = 4    \n  NEG_THRESHOLD = 2    \n\nCONSTRAINTS\n- Recommend only from anime_base.\n- Number of recommendations == {{$('Webhook').first().json.body.n_recommendations}}.\n- No extra text outside the JSON object.\n\nOUTPUT SCHEMA\n{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\"\n    }\n  ]\n}",
+        "text": "=SYSTEM (role = Anime Recommender)\nYou are an anime recommender that selects titles ONLY from the provided `anime_base`.  \nYour goal: infer the user's taste from `user_ratings` and return the top {{$('Webhook').first().json.body.n_recommendations}} anime from `anime_base` ranked by how well they match those preferences.  \nDo NOT reveal your internal reasoning process or step-by-step thoughts.\n\nCOSTAR\n- Context:\n  - anime_base: A list of anime objects with fields: id, title, description, seasons, episodes, genres.\n  - user_ratings: A list of anime the user has rated (may NOT be in anime_base), with fields: title, rating, reasons.\nThe rated items provide clues about preferred and disliked attributes.\n  - all_approved: A field that may be returned after another agent reviews the recommendations.\n    - On the first run `executions_counter = 1`, all_approved will be undefined because there has been no review yet.\n    - On subsequent runs, if any recommendation is marked approved: false, then all_approved = false and that item will include a reason explaining the rejection.\n  - reviewed_recommendations: (optional) A list from another agent’s review of previous recommendations, where each item may include:\n  - approved: boolean (true if approved, false if rejected)\n  - reason: string\n  - All original recommendation fields. This is only present after a review; on the first run, it will be undefined.\n\n- Objective: Recommend the top {{ $('Webhook').first().json.body.n_recommendations }} anime from anime_base that best match the user's positive preferences while avoiding disfavored traits.\n- Style: Strictly JSON output, no natural language.\n- Tone: Neutral and concise.\n- Audience: Machine consumer.\n- Response: Only valid JSON following the OUTPUT SCHEMA.\n\nRAG-like method (adapted for small base):\n1) Extract preference signals from `user_ratings`:\n   - Positive set: ratings ≥ 4\n   - Negative set: ratings ≤ 2\n   - Infer preferred genres, themes, tone from positives; disfavored ones from negatives.\n2) Score each anime in `anime_base` for similarity to positive profile and dissimilarity to negative profile.\n3) Sort descending by score, select top {{$('Webhook').first().json.body.n_recommendations}}.\n\nScoring rubric:\nscore = 100 * (\n  0.5 * GenreThemeMatch +\n  0.3 * ToneMatch +\n  0.1 * Novelty (not similar to negatives) +\n  0.1 * LengthFit\n)\n\nINPUTS\nanime_base = {{ $('Join BQ anime base').first().json.toJsonString() }}\nuser_ratings = {{ $('Join user anime ratings').first().json.toJsonString()}}\nprevious_review = {{ $('Increase executions counter')?.isExecuted ? $('Increase executions counter').first().json.toJsonString() : undefined}}\nparams:\n  POS_THRESHOLD = 4    \n  NEG_THRESHOLD = 2    \n\nCONSTRAINTS\n- Recommend only from anime_base.\n- Number of recommendations == {{$('Webhook').first().json.body.n_recommendations}}.\n- No extra text outside the JSON object.\n\nOUTPUT SCHEMA\n{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\"\n    }\n  ],\n  \"executions_counter\": \"int. If not set, set it to 1.\"\n}",
         "hasOutputParser": true,
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        1568,
-        -96
+        1424,
+        584
       ],
-      "id": "0270385e-a450-4cd5-be44-ea915ad8b867",
+      "id": "555ca91c-ad25-4662-ac2a-ccee1ef17d94",
       "name": "Anime recommendations agent"
     },
     {
@@ -189,10 +170,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        1576,
-        128
+        1432,
+        808
       ],
-      "id": "e36333df-1e62-4ad6-957c-4072b1dc19de",
+      "id": "99538f81-ae6a-460e-ac75-52c97435dacd",
       "name": "Google Gemini Chat Model",
       "credentials": {
         "googlePalmApi": {
@@ -204,15 +185,15 @@
     {
       "parameters": {
         "schemaType": "manual",
-        "inputSchema": "{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\"\n    }\n  ]\n}"
+        "inputSchema": "{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\"\n    }\n  ],\n  \"executions_counter\": \"int\"\n}"
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        1704,
-        128
+        1560,
+        808
       ],
-      "id": "d61ec254-560b-4e69-a4b5-87d45757f154",
+      "id": "f4be2abb-bfe5-4a0d-8b56-afdbcd7b5f5e",
       "name": "Structured Output Parser"
     },
     {
@@ -225,10 +206,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        1920,
-        -96
+        2352,
+        432
       ],
-      "id": "407fd4ce-6168-429f-839d-3780ea7945c4",
+      "id": "df008433-e94a-4184-84b0-b122cf079a6f",
       "name": "Description improver agent"
     },
     {
@@ -239,10 +220,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        1992,
-        128
+        2360,
+        656
       ],
-      "id": "22e256dd-9f54-4fc4-802b-2bcfa8902ecd",
+      "id": "a4db1359-8dd0-49bc-b995-2143c735f1f4",
       "name": "Google Gemini Chat Model1",
       "credentials": {
         "googlePalmApi": {
@@ -253,6 +234,144 @@
     },
     {
       "parameters": {
+        "promptType": "define",
+        "text": "=Role\nYou are an Anime Recommendation Quality Evaluator. Your job is to:\n\nAnalyze a list of animes that a user has rated.\n\nAnalyze the recommendations provided by another recommender model.\n\nDetermine whether each recommendation is Good (Approved = True) or Bad (Approved = False).\n\nInputs explanation\nYou will receive:\n\nuser_rated_animes: A list of anime objects the user has rated, including id, title, rating, and optionally genres or tags.\n\nmodel_recommendations: A list of anime objects recommended by a previous model, with id, title, and description.\n\nInputs\n- user_rated_animes: {{ $('Join user anime ratings').first().json.anime_ratings.toJsonString() }}\n- model_recommendations: {{ $('Anime recommendations agent').item.json.output.recommendations.toJsonString() }}\n\nEvaluation Criteria\nMark a recommendation as Approved = True if:\n\n- High Thematic Similarity – It shares multiple main genres, themes, or settings with the user’s highly-rated animes.\n\n- Tone & Style Match – The mood, pacing, and storytelling style are close to the liked animes.\n\n- Audience Alignment – The target audience is similar (e.g., shounen vs. seinen).\n\n- Popularity & Quality – It has good reception and is recognized among fans as similar to the liked shows.\n\nMark as Approved = False if:\n\n- The genre, tone, or theme is too different from the user’s liked animes.\n\n- It is unrelated in plot, style, or audience.\n\n- It appears in the user’s disliked or low-rated list.\n\nWhen regenerating recommendations:\n\n- Only propose titles that strongly match the user’s highly-rated animes.\n\n- Do not repeat the original bad recommendations.\n\nInstructions\n\n1. Review user_rated_animes and identify the characteristics of the animes rated highly.\n\n2. Evaluate each model_recommendation according to the Evaluation Criteria.\n\n3. Output an Approved field for each recommendation.\n\nEnsure the final recommendation list length does not exceed max_recommendations.\n\nProvide a short explanation for each approval/rejection.\n\nExample Output Schema\n{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\",\n      \"approved\": \"boolean. If the current recommendation if approved or not.\",\n      \"reason\": \"string. The reason as of why the recommendation was not approved.\"\n    }\n  ],\n  \"all_approved\": \"boolean. Whether all recommendations are approved.\",\n  \"executions_counter\": \"int\"\n}",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        1776,
+        584
+      ],
+      "id": "8e6bd6e6-cec7-4539-a60c-36690537e1eb",
+      "name": "Recommendations analyzer"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\"\n    }\n  ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        2488,
+        656
+      ],
+      "id": "c51c7ee6-6ba7-425d-81cc-b8e0bd912b6a",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1784,
+        808
+      ],
+      "id": "a5f0b2f3-57f9-4652-af09-7a0fb045ab39",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "thOk1NWBRNXfvSLt",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\",\n      \"approved\": \"boolean. If the current recommendation if approved or not.\",\n      \"reason\": \"string. The reason as of why the recommendation was not approved.\"\n    }\n  ],\n  \"all_approved\": \"boolean. Whether all recommendations were approved or not.\",\n  \"executions_counter\": \"int\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1912,
+        808
+      ],
+      "id": "67d2ca56-5cc6-4b7b-b251-acfc3a2efde7",
+      "name": "Structured Output Parser2"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "74158146-8569-47b2-ae29-bd2e5d29aae0",
+        "responseMode": "responseNode",
+        "options": {
+          "rawBody": true
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -368,
+        584
+      ],
+      "id": "9801548b-8bf6-4761-87e4-c1297549f1e1",
+      "name": "Webhook",
+      "webhookId": "74158146-8569-47b2-ae29-bd2e5d29aae0"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "0165c68c-b59f-43b5-a211-120c388d3a4c",
+              "leftValue": "={{ $('Recommendations analyzer').item.json.output.executions_counter}}",
+              "rightValue": 2,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            },
+            {
+              "id": "a1fbd51d-ae7d-408d-a602-1daa76c4127b",
+              "leftValue": "={{ $('Recommendations analyzer').item.json.output.all_approved }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2128,
+        584
+      ],
+      "id": "5ddef752-f368-4672-9757-bada91d0cb40",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "jsCode": "$input.first().json.output.executions_counter += 1; \n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2416,
+        856
+      ],
+      "id": "a2165920-5be3-4f9f-bdb2-688e068f2be3",
+      "name": "Increase executions counter"
+    },
+    {
+      "parameters": {
         "respondWith": "json",
         "responseBody": "={\n  \"recommendations\":{{ $json.output.recommendations.toJsonString() }}\n}",
         "options": {}
@@ -260,31 +379,28 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        2272,
-        -96
+        2704,
+        536
       ],
-      "id": "c690dc6d-fb25-47c3-9d4f-dec87037f334",
+      "id": "11e36dca-1fff-4e3f-8bd9-2706a60529d3",
       "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "jsCode": "const recommendations = $input.first().json.output.recommendations;\n\n// Extract just the titles\nconst titles = recommendations.map(item => item.title);\n\n// Return as n8n items\nreturn titles.map(title => ({\n  json: { title: title }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1840,
+        288
+      ],
+      "id": "36ff2d26-9598-4e33-bd50-f84706038eaf",
+      "name": "Code"
     }
   ],
   "pinData": {},
   "connections": {
-    "Webhook": {
-      "main": [
-        [
-          {
-            "node": "Fetch animes ids",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Get ratings",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Fetch animes ids": {
       "main": [
         [
@@ -391,11 +507,6 @@
             "node": "Anime recommendations agent",
             "type": "ai_outputParser",
             "index": 0
-          },
-          {
-            "node": "Description improver agent",
-            "type": "ai_outputParser",
-            "index": 0
           }
         ]
       ]
@@ -404,7 +515,12 @@
       "main": [
         [
           {
-            "node": "Description improver agent",
+            "node": "Recommendations analyzer",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code",
             "type": "main",
             "index": 0
           }
@@ -432,17 +548,106 @@
           }
         ]
       ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Description improver agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Recommendations analyzer",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser2": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Recommendations analyzer",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Fetch animes ids",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get ratings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recommendations analyzer": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Description improver agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Increase executions counter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Increase executions counter": {
+      "main": [
+        [
+          {
+            "node": "Anime recommendations agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "d26dc9fd-7ac4-4482-b95e-6b30123b24e3",
+  "versionId": "feeb2f14-e4ed-4bc9-b6c2-104bb4764c6d",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "c1b59109af2c2afce8bd5bf1c9d0b65ab33c6366613d260dbe8bc699a1380574"
   },
-  "id": "OFlSObCAuZJ70p4I",
+  "id": "Jb7Ez8sjLHnu5PM9",
   "tags": []
 }
