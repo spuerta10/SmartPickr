@@ -38,22 +38,22 @@ OUTPUT SCHEMA:
       "description": "string. The improved version of the anime description.",
       "seasons": "int",
       "episodes": "int",
-      "alikeness": "float",
       "image_url": "string"
     }
   ]
 }
 
 Inputs:
-recommended_animes = {{ $('Anime recommendations agent').item.json.output.recommendations.toJsonString() }}
+recommended_animes = {{ $('Anime recommendations agent').first().json.output.recommendations.toJsonString() }}
 user_ratings = {{ $('Join user anime ratings').first().json.anime_ratings.toJsonString() }}
 
 Constraints:
+- Always output recommendations
 
-Use only recommended_animes (no new titles).
+- Use only recommended_animes (no new titles).
 
-Keep rewritten_description ≤ 65 words total (including the “why” statement).
+- Keep rewritten_description ≤ 65 words total (including the “why” statement).
 
-“why” must start exactly with "Since you liked...".
+- “why” must start exactly with "Since you liked...".
 
-Output must be pure JSON — no extra commentary.
+- Output must be pure JSON — no extra commentary.

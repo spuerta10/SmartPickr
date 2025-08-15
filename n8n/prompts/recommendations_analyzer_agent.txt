@@ -51,6 +51,8 @@ Instructions
 
 3. Output an Approved field for each recommendation.
 
+4. Always output recommendations
+
 Ensure the final recommendation list length does not exceed max_recommendations.
 
 Provide a short explanation for each approval/rejection.

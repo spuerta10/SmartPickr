@@ -50,6 +50,7 @@ CONSTRAINTS
 - Recommend only from anime_base.
 - Number of recommendations == {{$('Webhook').first().json.body.n_recommendations}}.
 - No extra text outside the JSON object.
+- Always output recommendations.
 
 OUTPUT SCHEMA
 {
