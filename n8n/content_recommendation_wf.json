@@ -1,5 +1,5 @@
 {
-  "name": "content_recommendation_wf",
+  "name": "My workflow 3",
   "nodes": [
     {
       "parameters": {
@@ -19,7 +19,7 @@
       "typeVersion": 3.4,
       "position": [
         -144,
-        488
+        744
       ],
       "id": "edf23063-3404-41c6-9753-a52f6ce1e1bf",
       "name": "Fetch animes ids"
@@ -42,7 +42,7 @@
       "typeVersion": 3.4,
       "position": [
         80,
-        680
+        936
       ],
       "id": "c50d4f99-a740-471d-920c-2a5ed2d177fb",
       "name": "Get ratings"
@@ -58,7 +58,7 @@
       "typeVersion": 3.2,
       "position": [
         304,
-        584
+        840
       ],
       "id": "209bc668-d200-45ca-9d98-0c54ee6cfd5c",
       "name": "Merge"
@@ -72,7 +72,7 @@
       "typeVersion": 2,
       "position": [
         80,
-        488
+        744
       ],
       "id": "cef2ecd5-97ad-4b49-8127-6585b265bf65",
       "name": "Get rated animes info (mocked BQ response)"
@@ -85,7 +85,7 @@
       "typeVersion": 2,
       "position": [
         528,
-        584
+        840
       ],
       "id": "e13a47e8-dd08-4708-b748-6968a7bb16bf",
       "name": "Add like prop to rated animes"
@@ -99,7 +99,7 @@
       "type": "n8n-nodes-base.stickyNote",
       "position": [
         -240,
-        360
+        616
       ],
       "typeVersion": 1,
       "id": "d3fc1613-c4ff-4e1d-ae21-b11bf86937dd",
@@ -113,7 +113,7 @@
       "typeVersion": 2,
       "position": [
         752,
-        584
+        840
       ],
       "id": "c938e152-d56a-47a7-b548-d415af50ae14",
       "name": "Join user anime ratings"
@@ -127,7 +127,7 @@
       "typeVersion": 2,
       "position": [
         1200,
-        584
+        840
       ],
       "id": "0778ff05-ef2d-440d-8d8c-bf425ae72abb",
       "name": "Join BQ anime base"
@@ -141,7 +141,7 @@
       "typeVersion": 2,
       "position": [
         976,
-        584
+        840
       ],
       "id": "685154c2-ae68-4bd1-ab1f-e9ad195ae6be",
       "name": "Get all animes (mocked BQ response)"
@@ -149,29 +149,29 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=SYSTEM (role = Anime Recommender)\nYou are an anime recommender that selects titles ONLY from the provided `anime_base`.  \nYour goal: infer the user's taste from `user_ratings` and return the top {{$('Webhook').first().json.body.n_recommendations}} anime from `anime_base` ranked by how well they match those preferences.  \nDo NOT reveal your internal reasoning process or step-by-step thoughts.\n\nCOSTAR\n- Context:\n  - anime_base: A list of anime objects with fields: id, title, description, seasons, episodes, genres.\n  - user_ratings: A list of anime the user has rated (may NOT be in anime_base), with fields: title, rating, reasons.\nThe rated items provide clues about preferred and disliked attributes.\n  - all_approved: A field that may be returned after another agent reviews the recommendations.\n    - On the first run `executions_counter = 1`, all_approved will be undefined because there has been no review yet.\n    - On subsequent runs, if any recommendation is marked approved: false, then all_approved = false and that item will include a reason explaining the rejection.\n  - reviewed_recommendations: (optional) A list from another agent’s review of previous recommendations, where each item may include:\n  - approved: boolean (true if approved, false if rejected)\n  - reason: string\n  - All original recommendation fields. This is only present after a review; on the first run, it will be undefined.\n\n- Objective: Recommend the top {{ $('Webhook').first().json.body.n_recommendations }} anime from anime_base that best match the user's positive preferences while avoiding disfavored traits.\n- Style: Strictly JSON output, no natural language.\n- Tone: Neutral and concise.\n- Audience: Machine consumer.\n- Response: Only valid JSON following the OUTPUT SCHEMA.\n\nRAG-like method (adapted for small base):\n1) Extract preference signals from `user_ratings`:\n   - Positive set: ratings ≥ 4\n   - Negative set: ratings ≤ 2\n   - Infer preferred genres, themes, tone from positives; disfavored ones from negatives.\n2) Score each anime in `anime_base` for similarity to positive profile and dissimilarity to negative profile.\n3) Sort descending by score, select top {{$('Webhook').first().json.body.n_recommendations}}.\n\nScoring rubric:\nscore = 100 * (\n  0.5 * GenreThemeMatch +\n  0.3 * ToneMatch +\n  0.1 * Novelty (not similar to negatives) +\n  0.1 * LengthFit\n)\n\nINPUTS\nanime_base = {{ $('Join BQ anime base').first().json.toJsonString() }}\nuser_ratings = {{ $('Join user anime ratings').first().json.toJsonString()}}\nprevious_review = {{ $('Increase executions counter')?.isExecuted ? $('Increase executions counter').first().json.toJsonString() : undefined}}\nparams:\n  POS_THRESHOLD = 4    \n  NEG_THRESHOLD = 2    \n\nCONSTRAINTS\n- Recommend only from anime_base.\n- Number of recommendations == {{$('Webhook').first().json.body.n_recommendations}}.\n- No extra text outside the JSON object.\n\nOUTPUT SCHEMA\n{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\"\n    }\n  ],\n  \"executions_counter\": \"int. If not set, set it to 1.\"\n}",
+        "text": "=SYSTEM (role = Anime Recommender)\nYou are an anime recommender that selects titles ONLY from the provided `anime_base`.  \nYour goal: infer the user's taste from `user_ratings` and return the top {{$('Webhook').first().json.body.n_recommendations}} anime from `anime_base` ranked by how well they match those preferences.  \nDo NOT reveal your internal reasoning process or step-by-step thoughts.\n\nCOSTAR\n- Context:\n  - anime_base: A list of anime objects with fields: id, title, description, seasons, episodes, genres.\n  - user_ratings: A list of anime the user has rated (may NOT be in anime_base), with fields: title, rating, reasons.\nThe rated items provide clues about preferred and disliked attributes.\n  - all_approved: A field that may be returned after another agent reviews the recommendations.\n    - On the first run `executions_counter = 1`, all_approved will be undefined because there has been no review yet.\n    - On subsequent runs, if any recommendation is marked approved: false, then all_approved = false and that item will include a reason explaining the rejection.\n  - reviewed_recommendations: (optional) A list from another agent’s review of previous recommendations, where each item may include:\n  - approved: boolean (true if approved, false if rejected)\n  - reason: string\n  - All original recommendation fields. This is only present after a review; on the first run, it will be undefined.\n\n- Objective: Recommend the top {{ $('Webhook').first().json.body.n_recommendations }} anime from anime_base that best match the user's positive preferences while avoiding disfavored traits.\n- Style: Strictly JSON output, no natural language.\n- Tone: Neutral and concise.\n- Audience: Machine consumer.\n- Response: Only valid JSON following the OUTPUT SCHEMA.\n\nRAG-like method (adapted for small base):\n1) Extract preference signals from `user_ratings`:\n   - Positive set: ratings ≥ 4\n   - Negative set: ratings ≤ 2\n   - Infer preferred genres, themes, tone from positives; disfavored ones from negatives.\n2) Score each anime in `anime_base` for similarity to positive profile and dissimilarity to negative profile.\n3) Sort descending by score, select top {{$('Webhook').first().json.body.n_recommendations}}.\n\nScoring rubric:\nscore = 100 * (\n  0.5 * GenreThemeMatch +\n  0.3 * ToneMatch +\n  0.1 * Novelty (not similar to negatives) +\n  0.1 * LengthFit\n)\n\nINPUTS\nanime_base = {{ $('Join BQ anime base').first().json.toJsonString() }}\nuser_ratings = {{ $('Join user anime ratings').first().json.toJsonString()}}\nprevious_review = {{ $('Increase executions counter')?.isExecuted ? $('Increase executions counter').first().json.toJsonString() : undefined}}\nparams:\n  POS_THRESHOLD = 4    \n  NEG_THRESHOLD = 2    \n\nCONSTRAINTS\n- Recommend only from anime_base.\n- Number of recommendations == {{$('Webhook').first().json.body.n_recommendations}}.\n- No extra text outside the JSON object.\n- Always output recommendations.\n\nOUTPUT SCHEMA\n{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\"\n    }\n  ],\n  \"executions_counter\": \"int. If not set, set it to 1.\"\n}",
         "hasOutputParser": true,
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        1424,
-        584
+        1456,
+        840
       ],
       "id": "555ca91c-ad25-4662-ac2a-ccee1ef17d94",
       "name": "Anime recommendations agent"
     },
     {
       "parameters": {
-        "modelName": "models/gemini-1.5-flash-latest",
+        "modelName": "models/gemini-2.5-flash-lite",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        1432,
-        808
+        1424,
+        1064
       ],
       "id": "99538f81-ae6a-460e-ac75-52c97435dacd",
       "name": "Google Gemini Chat Model",
@@ -185,13 +185,14 @@
     {
       "parameters": {
         "schemaType": "manual",
-        "inputSchema": "{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\"\n    }\n  ],\n  \"executions_counter\": \"int\"\n}"
+        "inputSchema": "{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\"\n    }\n  ],\n  \"executions_counter\": \"int\"\n}",
+        "autoFix": true
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        1560,
-        808
+        1552,
+        1064
       ],
       "id": "f4be2abb-bfe5-4a0d-8b56-afdbcd7b5f5e",
       "name": "Structured Output Parser"
@@ -199,14 +200,14 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=You are an anime recommender assistant that only works with anime already recommended by another agent.\n\nYour goal: take the recommended_animes list and rewrite each description to maximize the chance the user will be interested.\nYou must infer the user’s taste from user_ratings and make each rewritten description more appealing by emphasizing relevant traits.\nFor each anime, append to the rewritten description a \"why\" statement in the form:\nSince you liked [title(s) from user_ratings], you might enjoy this because [reason].\nDo NOT reveal your internal reasoning process or step-by-step thoughts.\n\nContext:\n\nrecommended_animes: Anime objects with fields: id, title, description, seasons, episodes, genres.\n\nuser_ratings: Anime the user has rated, with fields: title, rating, reasons.\n\nObjective: Rewrite the description for each anime to better match inferred positive preferences, avoid disliked traits, and integrate the “why” into the description.\n\nStyle: Succinct, vivid, non-spoilery.\nTone: Friendly and engaging.\nAudience: System consuming JSON output.\nResponse: Must be valid JSON following the “OUTPUT SCHEMA”.\n\nInfer preferred themes, genres, tones.\n\nFor each anime in recommended_animes:\n\nKeep original plot essence but emphasize elements the user likes.\n\nAppend “why” at the end of the rewritten description.\n\nOutput in required JSON schema.\n\nOUTPUT SCHEMA:\n{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string. The improved version of the anime description.\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\"\n    }\n  ]\n}\n\nInputs:\nrecommended_animes = {{ $('Anime recommendations agent').item.json.output.recommendations.toJsonString() }}\nuser_ratings = {{ $('Join user anime ratings').first().json.anime_ratings.toJsonString() }}\n\nConstraints:\n\nUse only recommended_animes (no new titles).\n\nKeep rewritten_description ≤ 65 words total (including the “why” statement).\n\n“why” must start exactly with \"Since you liked...\".\n\nOutput must be pure JSON — no extra commentary.",
+        "text": "=You are an anime recommender assistant that only works with anime already recommended by another agent.\n\nYour goal: take the recommended_animes list and rewrite each description to maximize the chance the user will be interested.\nYou must infer the user’s taste from user_ratings and make each rewritten description more appealing by emphasizing relevant traits.\nFor each anime, append to the rewritten description a \"why\" statement in the form:\nSince you liked [title(s) from user_ratings], you might enjoy this because [reason].\nDo NOT reveal your internal reasoning process or step-by-step thoughts.\n\nContext:\n\nrecommended_animes: Anime objects with fields: id, title, description, seasons, episodes, genres.\n\nuser_ratings: Anime the user has rated, with fields: title, rating, reasons.\n\nObjective: Rewrite the description for each anime to better match inferred positive preferences, avoid disliked traits, and integrate the “why” into the description.\n\nStyle: Succinct, vivid, non-spoilery.\nTone: Friendly and engaging.\nAudience: System consuming JSON output.\nResponse: Must be valid JSON following the “OUTPUT SCHEMA”.\n\nInfer preferred themes, genres, tones.\n\nFor each anime in recommended_animes:\n\nKeep original plot essence but emphasize elements the user likes.\n\nAppend “why” at the end of the rewritten description.\n\nOutput in required JSON schema.\n\nOUTPUT SCHEMA:\n{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string. The improved version of the anime description.\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"image_url\": \"string\"\n    }\n  ]\n}\n\nInputs:\nrecommended_animes = {{ $('Anime recommendations agent').first().json.output.recommendations.toJsonString() }}\nuser_ratings = {{ $('Join user anime ratings').first().json.anime_ratings.toJsonString() }}\n\nConstraints:\n- Always output recommendations\n\n- Use only recommended_animes (no new titles).\n\n- Keep rewritten_description ≤ 65 words total (including the “why” statement).\n\n- “why” must start exactly with \"Since you liked...\".\n\n- Output must be pure JSON — no extra commentary.",
         "hasOutputParser": true,
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        2352,
+        2528,
         432
       ],
       "id": "df008433-e94a-4184-84b0-b122cf079a6f",
@@ -214,13 +215,12 @@
     },
     {
       "parameters": {
-        "modelName": "models/gemini-1.5-flash-latest",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        2360,
+        2496,
         656
       ],
       "id": "a4db1359-8dd0-49bc-b995-2143c735f1f4",
@@ -235,15 +235,15 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=Role\nYou are an Anime Recommendation Quality Evaluator. Your job is to:\n\nAnalyze a list of animes that a user has rated.\n\nAnalyze the recommendations provided by another recommender model.\n\nDetermine whether each recommendation is Good (Approved = True) or Bad (Approved = False).\n\nInputs explanation\nYou will receive:\n\nuser_rated_animes: A list of anime objects the user has rated, including id, title, rating, and optionally genres or tags.\n\nmodel_recommendations: A list of anime objects recommended by a previous model, with id, title, and description.\n\nInputs\n- user_rated_animes: {{ $('Join user anime ratings').first().json.anime_ratings.toJsonString() }}\n- model_recommendations: {{ $('Anime recommendations agent').item.json.output.recommendations.toJsonString() }}\n\nEvaluation Criteria\nMark a recommendation as Approved = True if:\n\n- High Thematic Similarity – It shares multiple main genres, themes, or settings with the user’s highly-rated animes.\n\n- Tone & Style Match – The mood, pacing, and storytelling style are close to the liked animes.\n\n- Audience Alignment – The target audience is similar (e.g., shounen vs. seinen).\n\n- Popularity & Quality – It has good reception and is recognized among fans as similar to the liked shows.\n\nMark as Approved = False if:\n\n- The genre, tone, or theme is too different from the user’s liked animes.\n\n- It is unrelated in plot, style, or audience.\n\n- It appears in the user’s disliked or low-rated list.\n\nWhen regenerating recommendations:\n\n- Only propose titles that strongly match the user’s highly-rated animes.\n\n- Do not repeat the original bad recommendations.\n\nInstructions\n\n1. Review user_rated_animes and identify the characteristics of the animes rated highly.\n\n2. Evaluate each model_recommendation according to the Evaluation Criteria.\n\n3. Output an Approved field for each recommendation.\n\nEnsure the final recommendation list length does not exceed max_recommendations.\n\nProvide a short explanation for each approval/rejection.\n\nExample Output Schema\n{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\",\n      \"approved\": \"boolean. If the current recommendation if approved or not.\",\n      \"reason\": \"string. The reason as of why the recommendation was not approved.\"\n    }\n  ],\n  \"all_approved\": \"boolean. Whether all recommendations are approved.\",\n  \"executions_counter\": \"int\"\n}",
+        "text": "=Role\nYou are an Anime Recommendation Quality Evaluator. Your job is to:\n\nAnalyze a list of animes that a user has rated.\n\nAnalyze the recommendations provided by another recommender model.\n\nDetermine whether each recommendation is Good (Approved = True) or Bad (Approved = False).\n\nInputs explanation\nYou will receive:\n\nuser_rated_animes: A list of anime objects the user has rated, including id, title, rating, and optionally genres or tags.\n\nmodel_recommendations: A list of anime objects recommended by a previous model, with id, title, and description.\n\nInputs\n- user_rated_animes: {{ $('Join user anime ratings').first().json.anime_ratings.toJsonString() }}\n- model_recommendations: {{ $('Anime recommendations agent').item.json.output.recommendations.toJsonString() }}\n\nEvaluation Criteria\nMark a recommendation as Approved = True if:\n\n- High Thematic Similarity – It shares multiple main genres, themes, or settings with the user’s highly-rated animes.\n\n- Tone & Style Match – The mood, pacing, and storytelling style are close to the liked animes.\n\n- Audience Alignment – The target audience is similar (e.g., shounen vs. seinen).\n\n- Popularity & Quality – It has good reception and is recognized among fans as similar to the liked shows.\n\nMark as Approved = False if:\n\n- The genre, tone, or theme is too different from the user’s liked animes.\n\n- It is unrelated in plot, style, or audience.\n\n- It appears in the user’s disliked or low-rated list.\n\nWhen regenerating recommendations:\n\n- Only propose titles that strongly match the user’s highly-rated animes.\n\n- Do not repeat the original bad recommendations.\n\nInstructions\n\n1. Review user_rated_animes and identify the characteristics of the animes rated highly.\n\n2. Evaluate each model_recommendation according to the Evaluation Criteria.\n\n3. Output an Approved field for each recommendation.\n\n4. Always output recommendations\n\nEnsure the final recommendation list length does not exceed max_recommendations.\n\nProvide a short explanation for each approval/rejection.\n\nExample Output Schema\n{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\",\n      \"approved\": \"boolean. If the current recommendation if approved or not.\",\n      \"reason\": \"string. The reason as of why the recommendation was not approved.\"\n    }\n  ],\n  \"all_approved\": \"boolean. Whether all recommendations are approved.\",\n  \"executions_counter\": \"int\"\n}",
         "hasOutputParser": true,
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        1776,
-        584
+        1920,
+        688
       ],
       "id": "8e6bd6e6-cec7-4539-a60c-36690537e1eb",
       "name": "Recommendations analyzer"
@@ -251,12 +251,13 @@
     {
       "parameters": {
         "schemaType": "manual",
-        "inputSchema": "{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\"\n    }\n  ]\n}"
+        "inputSchema": "{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"image_url\": \"string\"\n    }\n  ]\n}",
+        "autoFix": true
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        2488,
+        2624,
         656
       ],
       "id": "c51c7ee6-6ba7-425d-81cc-b8e0bd912b6a",
@@ -269,8 +270,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        1784,
-        808
+        1928,
+        912
       ],
       "id": "a5f0b2f3-57f9-4652-af09-7a0fb045ab39",
       "name": "Google Gemini Chat Model2",
@@ -289,8 +290,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        1912,
-        808
+        2056,
+        912
       ],
       "id": "67d2ca56-5cc6-4b7b-b251-acfc3a2efde7",
       "name": "Structured Output Parser2"
@@ -308,7 +309,7 @@
       "typeVersion": 2.1,
       "position": [
         -368,
-        584
+        840
       ],
       "id": "9801548b-8bf6-4761-87e4-c1297549f1e1",
       "name": "Webhook",
@@ -326,8 +327,8 @@
           "conditions": [
             {
               "id": "0165c68c-b59f-43b5-a211-120c388d3a4c",
-              "leftValue": "={{ $('Recommendations analyzer').item.json.output.executions_counter}}",
-              "rightValue": 2,
+              "leftValue": "={{ $('Increase executions counter')?.isExecuted ? $('Increase executions counter').first().json.output.executions_counter : 0}}",
+              "rightValue": 1,
               "operator": {
                 "type": "number",
                 "operation": "gte"
@@ -351,8 +352,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        2128,
-        584
+        2272,
+        688
       ],
       "id": "5ddef752-f368-4672-9757-bada91d0cb40",
       "name": "If"
@@ -364,8 +365,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2416,
-        856
+        2632,
+        1040
       ],
       "id": "a2165920-5be3-4f9f-bdb2-688e068f2be3",
       "name": "Increase executions counter"
@@ -373,30 +374,55 @@
     {
       "parameters": {
         "respondWith": "json",
-        "responseBody": "={\n  \"recommendations\":{{ $json.output.recommendations.toJsonString() }}\n}",
+        "responseBody": "={\n  \"recommendations\":{{ $('Description improver agent').first().json.output.recommendations.toJsonString() }}\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        2704,
-        536
+        2992,
+        640
       ],
       "id": "11e36dca-1fff-4e3f-8bd9-2706a60529d3",
       "name": "Respond to Webhook"
     },
     {
       "parameters": {
-        "jsCode": "const recommendations = $input.first().json.output.recommendations;\n\n// Extract just the titles\nconst titles = recommendations.map(item => item.title);\n\n// Return as n8n items\nreturn titles.map(title => ({\n  json: { title: title }\n}));"
+        "options": {}
       },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
       "position": [
-        1840,
-        288
+        2704,
+        864
       ],
-      "id": "36ff2d26-9598-4e33-bd50-f84706038eaf",
-      "name": "Code"
+      "id": "02d9e949-6ecc-4a94-b1a4-aa5c3d3a6073",
+      "name": "Google Gemini Chat Model3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "thOk1NWBRNXfvSLt",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1632,
+        1272
+      ],
+      "id": "c855d2c7-c092-49fd-a6d0-dec9b26feb8b",
+      "name": "Google Gemini Chat Model4",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "thOk1NWBRNXfvSLt",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -518,11 +544,6 @@
             "node": "Recommendations analyzer",
             "type": "main",
             "index": 0
-          },
-          {
-            "node": "Code",
-            "type": "main",
-            "index": 0
           }
         ]
       ]
@@ -637,13 +658,35 @@
           }
         ]
       ]
+    },
+    "Google Gemini Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "feeb2f14-e4ed-4bc9-b6c2-104bb4764c6d",
+  "versionId": "de9778eb-b65f-4538-84e0-5c6e0710f268",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "c1b59109af2c2afce8bd5bf1c9d0b65ab33c6366613d260dbe8bc699a1380574"
