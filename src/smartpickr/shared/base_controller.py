@@ -29,6 +29,9 @@ class BaseController:
         """
         if self.session_key not in st.session_state:
             st.session_state[self.session_key] = 0    
+        
+        if "user_ratings" not in st.session_state:
+            st.session_state.user_ratings = []
     
     @staticmethod
     def __store_rating(anime_id: int, liked: bool) -> None:
@@ -38,9 +41,9 @@ class BaseController:
             anime_id (int): The ID of the anime being rated.
             liked (bool): Whether the user liked the anime.
         """
-        if "user_ratings" not in st.session_state:
-            st.session_state.user_ratings = {}
-        st.session_state.user_ratings[anime_id] = liked
+        st.session_state.user_ratings.append(
+            {"anime_id":anime_id,"liked":liked}
+        )
         
     def get_current_anime(self) -> Anime | None:
         """Retrieve the current anime based on the session index.
@@ -64,7 +67,7 @@ class BaseController:
             bool: True if rating was recorded and moved to next anime.
         """
         st.session_state[self.session_key] += 1
-        #self.__store_rating(anime_id, liked)
+        self.__store_rating(anime_id, liked)
         return True
     
     @staticmethod
