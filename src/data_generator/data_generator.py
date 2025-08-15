@@ -4,8 +4,10 @@ import json
 from xml.dom.minidom import parse
 from time import sleep
 import hashlib
+import os
 
-XML_PATH = 'animelist_1755260397_-_10513306.xml'  # nombre del XML en la carpeta actual
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+XML_PATH = os.path.join(SCRIPT_DIR, 'animelist_1755260397_-_10513306.xml')
 
 DELAY = 2.5
 mal.config.TIMEOUT = 30
@@ -75,15 +77,17 @@ def main():
 		print(f'[{i}/{len(anime_list)}] {anime["title"]} procesado')
 		sleep(DELAY)
 	# Guardar en JSON
-	with open('mock_animes.json', 'w', encoding='utf-8') as f:
+	json_path = os.path.join(SCRIPT_DIR, 'mock_animes.json')
+	with open(json_path, 'w', encoding='utf-8') as f:
 		json.dump(mock_animes, f, ensure_ascii=False, indent=4)
-	print(f'Datos guardados en mock_animes.json')
+	print(f'Datos guardados en {json_path}')
 
 	# Guardar en TXT en una sola línea estilo Python
 	txt_content = f"mock_animes: list[dict] = {json.dumps(mock_animes, ensure_ascii=False)}\nreturn mock_animes"
-	with open('mock_animes.txt', 'w', encoding='utf-8') as f:
+	txt_path = os.path.join(SCRIPT_DIR, 'mock_animes.txt')
+	with open(txt_path, 'w', encoding='utf-8') as f:
 		f.write(txt_content)
-	print(f'Datos guardados en mock_animes.txt (formato copiable)')
+	print(f'Datos guardados en {txt_path} (formato copiable)')
 	return mock_animes
 
 if __name__ == '__main__':
