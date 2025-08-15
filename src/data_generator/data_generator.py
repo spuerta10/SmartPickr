@@ -58,7 +58,7 @@ def get_anime_info(anime_id):
 			'image_url': anime.image_url or ''
 		}
 	except Exception as e:
-		print(f'Error obteniendo anime {anime_id}: {e}')
+		print(f'\tError obteniendo anime {anime_id}: {e}. (Seguramente nos rate-limitearon)')
 		return None
 
 def main():
@@ -67,13 +67,19 @@ def main():
 	print(f'Total animes encontrados: {len(anime_list)}')
 	mock_animes = []
 	for i, anime in enumerate(anime_list, 1):
+		n_try = 0
 		while True:
-			info = get_anime_info(anime['id'])
+			info = get_anime_info(
+				anime['id']
+			)
 			if info:
 				mock_animes.append(info)
 				break
 			else:
-				sleep(DELAY)
+				delay = DELAY + n_try*10
+				print(f'\tTry #{n_try+2}, delaying {delay} seconds...')
+				sleep(delay)
+				n_try += 1
 		print(f'[{i}/{len(anime_list)}] {anime["title"]} procesado')
 		sleep(DELAY)
 	# Guardar en JSON
