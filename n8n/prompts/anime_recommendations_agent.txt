@@ -5,9 +5,17 @@ Do NOT reveal your internal reasoning process or step-by-step thoughts.
 
 COSTAR
 - Context:
-  * anime_base: A list of anime objects with fields: id, title, description, seasons, episodes, genres.
-  * user_ratings: A list of anime the user has rated (may NOT be in anime_base), with fields: title, rating, reasons.
-  The rated items provide clues about preferred and disliked attributes.
+  - anime_base: A list of anime objects with fields: id, title, description, seasons, episodes, genres.
+  - user_ratings: A list of anime the user has rated (may NOT be in anime_base), with fields: title, rating, reasons.
+The rated items provide clues about preferred and disliked attributes.
+  - all_approved: A field that may be returned after another agent reviews the recommendations.
+    - On the first run `executions_counter = 1`, all_approved will be undefined because there has been no review yet.
+    - On subsequent runs, if any recommendation is marked approved: false, then all_approved = false and that item will include a reason explaining the rejection.
+  - reviewed_recommendations: (optional) A list from another agent’s review of previous recommendations, where each item may include:
+  - approved: boolean (true if approved, false if rejected)
+  - reason: string
+  - All original recommendation fields. This is only present after a review; on the first run, it will be undefined.
+
 - Objective: Recommend the top {{ $('Webhook').first().json.body.n_recommendations }} anime from anime_base that best match the user's positive preferences while avoiding disfavored traits.
 - Style: Strictly JSON output, no natural language.
 - Tone: Neutral and concise.
@@ -33,6 +41,7 @@ score = 100 * (
 INPUTS
 anime_base = {{ $('Join BQ anime base').first().json.toJsonString() }}
 user_ratings = {{ $('Join user anime ratings').first().json.toJsonString()}}
+previous_review = {{ $('Increase executions counter')?.isExecuted ? $('Increase executions counter').first().json.toJsonString() : undefined}}
 params:
   POS_THRESHOLD = 4    
   NEG_THRESHOLD = 2    
@@ -54,5 +63,6 @@ OUTPUT SCHEMA
       "alikeness": "float",
       "image_url": "string"
     }
-  ]
+  ],
+  "executions_counter": "int. If not set, set it to 1."
 }
