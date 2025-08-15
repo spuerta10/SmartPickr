@@ -5,6 +5,7 @@
       "parameters": {
         "httpMethod": "POST",
         "path": "2e1f6810-7246-40de-85d8-23f9f09d25f6",
+        "responseMode": "responseNode",
         "options": {
           "rawBody": true
         }
@@ -12,10 +13,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -208,
-        256
+        -224,
+        -96
       ],
-      "id": "c3c24e71-329a-4533-b8c6-5471320faac8",
+      "id": "71c2e7be-8a2a-4096-bf50-3883fa03cb7b",
       "name": "Webhook",
       "webhookId": "2e1f6810-7246-40de-85d8-23f9f09d25f6"
     },
@@ -36,10 +37,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        16,
-        160
+        0,
+        -192
       ],
-      "id": "7d39a723-10e3-4d5a-a2e0-ca48000b7e16",
+      "id": "f09edcbf-6947-4e3c-907e-185ea59766dc",
       "name": "Fetch animes ids"
     },
     {
@@ -49,7 +50,7 @@
             {
               "id": "61cbb276-d1b1-4cd1-9f08-78552c46fe42",
               "name": "ratings",
-              "value": "={{ $json.body.ratings }}",
+              "value": "={{ $('Webhook').item.json.body.ratings }}",
               "type": "array"
             }
           ]
@@ -59,25 +60,11 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        240,
-        352
+        224,
+        0
       ],
-      "id": "2295c89a-b3e2-486c-b663-46d13332a114",
+      "id": "4a7c0d8e-bb82-4731-b4f2-70e1f2dbfd65",
       "name": "Get ratings"
-    },
-    {
-      "parameters": {
-        "language": "python",
-        "pythonCode": "mock_animes: list[dict] = [\n  {\n    \"id\": 4,\n    \"title\": \"Fullmetal Alchemist: Brotherhood\",\n    \"description\": \"A saiyan’s journey.\",\n    \"image_url\": \"https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=70,width=320,height=180/catalog/crunchyroll/025260e7ab620e093bff1233dd78629d.jpg\",\n    \"seasons\": 1,\n    \"episodes\": 64\n  },\n  {\n    \"id\": 5,\n    \"title\": \"Neon Genesis Evangelion\",\n    \"description\": \"A saiyan’s journey.\",\n    \"image_url\": \"https://wiki.evageeks.org/images/thumb/c/ca/26_C343_shinji-grin.jpg/260px-26_C343_shinji-grin.jpg\",\n    \"seasons\": 1,\n    \"episodes\": 26\n  },\n  {\n    \"id\": 6,\n    \"title\": \"Attack on Titan\",\n    \"description\": \"Humanity fights for survival against man-eating titans.\",\n    \"image_url\": \"https://m.media-amazon.com/images/I/81lpsT0vErL._AC_UF1000,1000_QL80_.jpg\",\n    \"seasons\": 4,\n    \"episodes\": 87\n  },\n  {\n    \"id\": 7,\n    \"title\": \"Death Note\",\n    \"description\": \"A student discovers a notebook that can kill anyone whose name is written in it.\",\n    \"image_url\": \"https://m.media-amazon.com/images/I/81U3d6j3XUL._AC_UF894,1000_QL80_.jpg\",\n    \"seasons\": 1,\n    \"episodes\": 37\n  },\n  {\n    \"id\": 8,\n    \"title\": \"Demon Slayer: Kimetsu no Yaiba\",\n    \"description\": \"A boy becomes a demon slayer after his family is slaughtered.\",\n    \"image_url\": \"https://m.media-amazon.com/images/I/91P8OkfRcpL._AC_UF1000,1000_QL80_.jpg\",\n    \"seasons\": 3,\n    \"episodes\": 55\n  },\n  {\n    \"id\": 9,\n    \"title\": \"One Punch Man\",\n    \"description\": \"A hero who can defeat any opponent with a single punch seeks a worthy challenge.\",\n    \"image_url\": \"https://m.media-amazon.com/images/I/71fY+qdyJzL._AC_UF894,1000_QL80_.jpg\",\n    \"seasons\": 2,\n    \"episodes\": 24\n  },\n  {\n    \"id\": 10,\n    \"title\": \"My Hero Academia\",\n    \"description\": \"In a world of superheroes, a boy without powers dreams of becoming a hero.\",\n    \"image_url\": \"https://m.media-amazon.com/images/I/81ZCrPhrBIL._AC_UF1000,1000_QL80_.jpg\",\n    \"seasons\": 6,\n    \"episodes\": 138\n  }\n]\n\nreturn mock_animes\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        240,
-        160
-      ],
-      "id": "f0bb9bf4-a8d2-4e7a-8e36-ee930f1acf54",
-      "name": "BQ mock response"
     },
     {
       "parameters": {
@@ -89,11 +76,25 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        464,
-        256
+        448,
+        -96
       ],
-      "id": "5cfd4e6e-9231-4614-87ff-a5df892563f0",
+      "id": "7fdbf5a3-ae9a-4ed9-80b4-9f4fd6c79237",
       "name": "Merge"
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "mock_animes: list[dict] = [\n    {\n        \"id\": 4,\n        \"title\": \"Fullmetal Alchemist: Brotherhood\",\n        \"description\": \"A saiyan’s journey.\",\n        \"seasons\": 1,\n        \"episodes\": 64,\n        \"image_url\": \"https://upload.wikimedia.org/wikipedia/en/7/74/Fullmetal_Alchemist_Brotherhood.jpg\"\n    },\n    {\n        \"id\": 5,\n        \"title\": \"Neon Genesis Evangelion\",\n        \"description\": \"A saiyan’s journey.\",\n        \"seasons\": 1,\n        \"episodes\": 26,\n        \"image_url\": \"https://upload.wikimedia.org/wikipedia/en/0/06/NeonGenesisEvangelionPoster.jpg\"\n    },\n    {\n        \"id\": 6,\n        \"title\": \"Attack on Titan\",\n        \"description\": \"Humanity fights for survival against man-eating titans.\",\n        \"seasons\": 4,\n        \"episodes\": 87,\n        \"image_url\": \"https://upload.wikimedia.org/wikipedia/en/7/73/Attack_on_Titan_S1_DVD.jpg\"\n    },\n    {\n        \"id\": 7,\n        \"title\": \"Death Note\",\n        \"description\": \"A student discovers a notebook that can kill anyone whose name is written in it.\",\n        \"seasons\": 1,\n        \"episodes\": 37,\n        \"image_url\": \"https://upload.wikimedia.org/wikipedia/en/6/6f/Death_Note_Vol_1.jpg\"\n    },\n    {\n        \"id\": 8,\n        \"title\": \"Demon Slayer: Kimetsu no Yaiba\",\n        \"description\": \"A boy becomes a demon slayer after his family is slaughtered.\",\n        \"seasons\": 3,\n        \"episodes\": 55,\n        \"image_url\": \"https://upload.wikimedia.org/wikipedia/en/7/7e/Kimetsu_no_Yaiba_Volume_1.png\"\n    },\n    {\n        \"id\": 9,\n        \"title\": \"One Punch Man\",\n        \"description\": \"A hero who can defeat any opponent with a single punch seeks a worthy challenge.\",\n        \"seasons\": 2,\n        \"episodes\": 24,\n        \"image_url\": \"https://upload.wikimedia.org/wikipedia/en/3/3b/OnePunchMan_manga_cover.png\"\n    },\n    {\n        \"id\": 10,\n        \"title\": \"My Hero Academia\",\n        \"description\": \"In a world of superheroes, a boy without powers dreams of becoming a hero.\",\n        \"seasons\": 6,\n        \"episodes\": 138,\n        \"image_url\": \"https://upload.wikimedia.org/wikipedia/en/0/0f/My_Hero_Academia_Volume_1.png\"\n    }\n]\n\nreturn mock_animes"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        -192
+      ],
+      "id": "de0dab2f-42fa-42a4-bce2-ef5669cbf58a",
+      "name": "Get rated animes info (mocked BQ response)"
     },
     {
       "parameters": {
@@ -102,11 +103,168 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        688,
-        256
+        672,
+        -96
       ],
-      "id": "11351c20-e796-4930-9944-6e9b72bf1d05",
-      "name": "Add like prop to BQ response"
+      "id": "03dd6801-8a6e-47b2-801e-645ee085cfb5",
+      "name": "Add like prop to rated animes"
+    },
+    {
+      "parameters": {
+        "content": "# Rated animes",
+        "height": 464,
+        "width": 960
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -96,
+        -304
+      ],
+      "typeVersion": 1,
+      "id": "dcc66c4c-92e2-47ab-acc0-c46a610becff",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "jsCode": "const user_anime_ratings = {\n  anime_ratings: $input.all().map(item => item.json)\n}\n\nreturn [\n  {\n    json: user_anime_ratings\n  }\n]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        -96
+      ],
+      "id": "0bcf4f08-a0e0-4af6-b1ab-64e9b8c422c3",
+      "name": "Join user anime ratings"
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "anime_base: dict[str, list] = {\n  \"whole_anime_base\" : [item.json for item in _input.all()]\n}\n  \nreturn anime_base"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1344,
+        -96
+      ],
+      "id": "abc905cc-f6ce-4c2a-b7f0-e6cf76ba8717",
+      "name": "Join BQ anime base"
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "mock_animes: list[dict] = [\n    {\n        \"id\": 13,\n        \"title\": \"Bleach\",\n        \"description\": \"A teenager gains the powers of a Soul Reaper and battles evil spirits.\",\n        \"seasons\": 16,\n        \"episodes\": 366,\n        \"image_url\": \"https://upload.wikimedia.org/wikipedia/en/7/72/Bleachanime.png\"\n    },\n    {\n        \"id\": 14,\n        \"title\": \"Jujutsu Kaisen\",\n        \"description\": \"A high schooler joins a secret organization to fight cursed spirits.\",\n        \"seasons\": 2,\n        \"episodes\": 47,\n        \"image_url\": \"https://upload.wikimedia.org/wikipedia/en/4/46/Jujutsu_kaisen.jpg\"\n    },\n    {\n        \"id\": 15,\n        \"title\": \"Black Clover\",\n        \"description\": \"A boy born without magic aims to become the Wizard King.\",\n        \"seasons\": 4,\n        \"episodes\": 170,\n        \"image_url\": \"https://upload.wikimedia.org/wikipedia/en/3/3a/Black_Clover_Volume_1.png\"\n    },\n    {\n        \"id\": 16,\n        \"title\": \"Hunter x Hunter\",\n        \"description\": \"A boy sets out to become a Hunter and find his missing father.\",\n        \"seasons\": 6,\n        \"episodes\": 148,\n        \"image_url\": \"https://upload.wikimedia.org/wikipedia/en/d/d8/Hunter_x_Hunter_cover.jpg\"\n    },\n    {\n        \"id\": 17,\n        \"title\": \"Sword Art Online\",\n        \"description\": \"Players trapped in a virtual reality MMORPG must fight to survive.\",\n        \"seasons\": 4,\n        \"episodes\": 96,\n        \"image_url\": \"https://upload.wikimedia.org/wikipedia/en/f/f4/Sword_Art_Online_light_novel_volume_1.png\"\n    },\n    {\n        \"id\": 18,\n        \"title\": \"Tokyo Ghoul\",\n        \"description\": \"A college student becomes part-ghoul after a deadly encounter.\",\n        \"seasons\": 4,\n        \"episodes\": 48,\n        \"image_url\": \"https://upload.wikimedia.org/wikipedia/en/5/5e/Tokyo_Ghoul_volume_1_cover.jpg\"\n    },\n    {\n        \"id\": 19,\n        \"title\": \"Code Geass\",\n        \"description\": \"A young man gains a mysterious power to command anyone to obey him.\",\n        \"seasons\": 2,\n        \"episodes\": 50,\n        \"image_url\": \"https://upload.wikimedia.org/wikipedia/en/0/05/Code_Geass_DVD.jpg\"\n    },\n    {\n        \"id\": 20,\n        \"title\": \"Fairy Tail\",\n        \"description\": \"A guild of mages takes on dangerous missions and powerful enemies.\",\n        \"seasons\": 9,\n        \"episodes\": 328,\n        \"image_url\": \"https://upload.wikimedia.org/wikipedia/en/0/0f/FairyTail-Volume_1_Cover.jpg\"\n    },\n    {\n        \"id\": 21,\n        \"title\": \"The Seven Deadly Sins\",\n        \"description\": \"Knights embark on a quest to save their kingdom from corruption.\",\n        \"seasons\": 5,\n        \"episodes\": 100,\n        \"image_url\": \"https://upload.wikimedia.org/wikipedia/en/7/7b/The_Seven_Deadly_Sins_DVD.jpg\"\n    },\n    {\n        \"id\": 22,\n        \"title\": \"Dr. Stone\",\n        \"description\": \"In a world turned to stone, a genius tries to rebuild civilization.\",\n        \"seasons\": 3,\n        \"episodes\": 49,\n        \"image_url\": \"https://upload.wikimedia.org/wikipedia/en/b/b5/Dr._Stone_volume_1_cover.jpg\"\n    },\n    {\n        \"id\": 23,\n        \"title\": \"Mob Psycho 100\",\n        \"description\": \"A psychic boy tries to live a normal life while facing supernatural threats.\",\n        \"seasons\": 3,\n        \"episodes\": 37,\n        \"image_url\": \"https://upload.wikimedia.org/wikipedia/en/f/f4/Mob_Psycho_100_cover.jpg\"\n    },\n    {\n        \"id\": 24,\n        \"title\": \"Blue Exorcist\",\n        \"description\": \"The son of Satan trains to become an exorcist.\",\n        \"seasons\": 3,\n        \"episodes\": 37,\n        \"image_url\": \"https://upload.wikimedia.org/wikipedia/en/e/e9/Blue_Exorcist_volume_1_cover.jpg\"\n    },\n    {\n        \"id\": 25,\n        \"title\": \"Parasyte: The Maxim\",\n        \"description\": \"A teenager coexists with an alien parasite in his right hand.\",\n        \"seasons\": 1,\n        \"episodes\": 24,\n        \"image_url\": \"https://upload.wikimedia.org/wikipedia/en/6/63/Parasyte_Manga_cover.jpg\"\n    }\n]\n\nreturn mock_animes"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        -96
+      ],
+      "id": "cfa5c388-dc47-4e0d-968f-dec9aff58ded",
+      "name": "Get all animes (mocked BQ response)"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=SYSTEM (role = Anime Recommender)\nYou are an anime recommender that selects titles ONLY from the provided `anime_base`.  \nYour goal: infer the user's taste from `user_ratings` and return the top {{$('Webhook').first().json.body.n_recommendations}} anime from `anime_base` ranked by how well they match those preferences.  \nDo NOT reveal your internal reasoning process or step-by-step thoughts.\n\nCOSTAR\n- Context:\n  * anime_base: A list of anime objects with fields: id, title, description, seasons, episodes, genres.\n  * user_ratings: A list of anime the user has rated (may NOT be in anime_base), with fields: title, rating, reasons.\n  The rated items provide clues about preferred and disliked attributes.\n- Objective: Recommend the top {{ $('Webhook').first().json.body.n_recommendations }} anime from anime_base that best match the user's positive preferences while avoiding disfavored traits.\n- Style: Strictly JSON output, no natural language.\n- Tone: Neutral and concise.\n- Audience: Machine consumer.\n- Response: Only valid JSON following the OUTPUT SCHEMA.\n\nRAG-like method (adapted for small base):\n1) Extract preference signals from `user_ratings`:\n   - Positive set: ratings ≥ 4\n   - Negative set: ratings ≤ 2\n   - Infer preferred genres, themes, tone from positives; disfavored ones from negatives.\n2) Score each anime in `anime_base` for similarity to positive profile and dissimilarity to negative profile.\n3) Sort descending by score, select top {{$('Webhook').first().json.body.n_recommendations}}.\n\nScoring rubric:\nscore = 100 * (\n  0.5 * GenreThemeMatch +\n  0.3 * ToneMatch +\n  0.1 * Novelty (not similar to negatives) +\n  0.1 * LengthFit\n)\n\nINPUTS\nanime_base = {{ $('Join BQ anime base').first().json.toJsonString() }}\nuser_ratings = {{ $('Join user anime ratings').first().json.toJsonString()}}\nparams:\n  POS_THRESHOLD = 4    \n  NEG_THRESHOLD = 2    \n\nCONSTRAINTS\n- Recommend only from anime_base.\n- Number of recommendations == {{$('Webhook').first().json.body.n_recommendations}}.\n- No extra text outside the JSON object.\n\nOUTPUT SCHEMA\n{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\"\n    }\n  ]\n}",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        1568,
+        -96
+      ],
+      "id": "0270385e-a450-4cd5-be44-ea915ad8b867",
+      "name": "Anime recommendations agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1576,
+        128
+      ],
+      "id": "e36333df-1e62-4ad6-957c-4072b1dc19de",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "thOk1NWBRNXfvSLt",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\"\n    }\n  ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1704,
+        128
+      ],
+      "id": "d61ec254-560b-4e69-a4b5-87d45757f154",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an anime recommender assistant that only works with anime already recommended by another agent.\n\nYour goal: take the recommended_animes list and rewrite each description to maximize the chance the user will be interested.\nYou must infer the user’s taste from user_ratings and make each rewritten description more appealing by emphasizing relevant traits.\nFor each anime, append to the rewritten description a \"why\" statement in the form:\nSince you liked [title(s) from user_ratings], you might enjoy this because [reason].\nDo NOT reveal your internal reasoning process or step-by-step thoughts.\n\nContext:\n\nrecommended_animes: Anime objects with fields: id, title, description, seasons, episodes, genres.\n\nuser_ratings: Anime the user has rated, with fields: title, rating, reasons.\n\nObjective: Rewrite the description for each anime to better match inferred positive preferences, avoid disliked traits, and integrate the “why” into the description.\n\nStyle: Succinct, vivid, non-spoilery.\nTone: Friendly and engaging.\nAudience: System consuming JSON output.\nResponse: Must be valid JSON following the “OUTPUT SCHEMA”.\n\nInfer preferred themes, genres, tones.\n\nFor each anime in recommended_animes:\n\nKeep original plot essence but emphasize elements the user likes.\n\nAppend “why” at the end of the rewritten description.\n\nOutput in required JSON schema.\n\nOUTPUT SCHEMA:\n{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string. The improved version of the anime description.\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\"\n    }\n  ]\n}\n\nInputs:\nrecommended_animes = {{ $('Anime recommendations agent').item.json.output.recommendations.toJsonString() }}\nuser_ratings = {{ $('Join user anime ratings').first().json.anime_ratings.toJsonString() }}\n\nConstraints:\n\nUse only recommended_animes (no new titles).\n\nKeep rewritten_description ≤ 65 words total (including the “why” statement).\n\n“why” must start exactly with \"Since you liked...\".\n\nOutput must be pure JSON — no extra commentary.",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        1920,
+        -96
+      ],
+      "id": "407fd4ce-6168-429f-839d-3780ea7945c4",
+      "name": "Description improver agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1992,
+        128
+      ],
+      "id": "22e256dd-9f54-4fc4-802b-2bcfa8902ecd",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "thOk1NWBRNXfvSLt",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"recommendations\":{{ $json.output.recommendations.toJsonString() }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        2272,
+        -96
+      ],
+      "id": "c690dc6d-fb25-47c3-9d4f-dec87037f334",
+      "name": "Respond to Webhook"
     }
   ],
   "pinData": {},
@@ -115,12 +273,12 @@
       "main": [
         [
           {
-            "node": "Get ratings",
+            "node": "Fetch animes ids",
             "type": "main",
             "index": 0
           },
           {
-            "node": "Fetch animes ids",
+            "node": "Get ratings",
             "type": "main",
             "index": 0
           }
@@ -131,7 +289,7 @@
       "main": [
         [
           {
-            "node": "BQ mock response",
+            "node": "Get rated animes info (mocked BQ response)",
             "type": "main",
             "index": 0
           }
@@ -149,7 +307,18 @@
         ]
       ]
     },
-    "BQ mock response": {
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Add like prop to rated animes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get rated animes info (mocked BQ response)": {
       "main": [
         [
           {
@@ -160,20 +329,108 @@
         ]
       ]
     },
-    "Merge": {
+    "Add like prop to rated animes": {
       "main": [
         [
           {
-            "node": "Add like prop to BQ response",
+            "node": "Join user anime ratings",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Add like prop to BQ response": {
+    "Join user anime ratings": {
       "main": [
-        []
+        [
+          {
+            "node": "Get all animes (mocked BQ response)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get all animes (mocked BQ response)": {
+      "main": [
+        [
+          {
+            "node": "Join BQ anime base",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Join BQ anime base": {
+      "main": [
+        [
+          {
+            "node": "Anime recommendations agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Anime recommendations agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Anime recommendations agent",
+            "type": "ai_outputParser",
+            "index": 0
+          },
+          {
+            "node": "Description improver agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anime recommendations agent": {
+      "main": [
+        [
+          {
+            "node": "Description improver agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Description improver agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Description improver agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -181,11 +438,11 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "d97e7743-6a20-4666-b8ce-b82c3bd3879c",
+  "versionId": "d26dc9fd-7ac4-4482-b95e-6b30123b24e3",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "c1b59109af2c2afce8bd5bf1c9d0b65ab33c6366613d260dbe8bc699a1380574"
   },
-  "id": "oTPudxBpWs9xjTT7",
+  "id": "OFlSObCAuZJ70p4I",
   "tags": []
 }
