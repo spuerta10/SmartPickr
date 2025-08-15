@@ -4,12 +4,16 @@ import streamlit as st
 
 from context.recommendations.controller import RecommendationsController 
 from context.recommendations.views.loading import LoadingView
+from context.recommendations.views.sumary import SumaryView
 from context.manager import AppContextManager, AppContext
 from shared.views.anime import AnimeView
 
+DEFAULT_NUM_RECOMMENDATIONS: int = 3
+ANIME_RECOMMENDER_ENDPOINT: str = "https://93qygbmezvm1ffvvpwhveun0.hooks.n8n.cloud/webhook-test/74158146-8569-47b2-ae29-bd2e5d29aae0"
+
 def handle_load() -> None:
-    controller = RecommendationsController()
-    LoadingView.render(controller=controller)
+    controller = RecommendationsController(ANIME_RECOMMENDER_ENDPOINT)
+    LoadingView.render(controller=controller, n_recommendations=DEFAULT_NUM_RECOMMENDATIONS)
     AppContextManager.on_context_complete(AppContext.LOADING)
 
 
@@ -32,14 +36,18 @@ def handle_recommendations() -> None:
     Returns:
         None
     """
-    controller = RecommendationsController()
+    controller = RecommendationsController(
+        recommender_url=ANIME_RECOMMENDER_ENDPOINT
+    )
     if not controller.finished_ratings():
         current_anime = controller.get_current_anime()
         result = AnimeView.render(**asdict(current_anime))
         if result["liked"] is not None: 
             if controller.rate_anime(**result):
-                recommendations: list = controller.get_recommendations(2)
-                controller.add_recommendations(recommendations)
+                #recommendations: list = controller.get_recommendations()#DEFAULT_NUM_RECOMMENDATIONS)
+                #controller.add_recommendations(recommendations)
                 st.rerun()  # next recommendation anime
-        else:
-            print("Finished all ratings!")
+
+def handle_summary():
+    controller = RecommendationsController()
+    SumaryView.render(controller=controller)
