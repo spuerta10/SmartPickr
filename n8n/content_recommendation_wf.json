@@ -19,7 +19,7 @@
       "typeVersion": 3.4,
       "position": [
         -144,
-        744
+        752
       ],
       "id": "edf23063-3404-41c6-9753-a52f6ce1e1bf",
       "name": "Fetch animes ids"
@@ -42,7 +42,7 @@
       "typeVersion": 3.4,
       "position": [
         80,
-        936
+        944
       ],
       "id": "c50d4f99-a740-471d-920c-2a5ed2d177fb",
       "name": "Get ratings"
@@ -58,7 +58,7 @@
       "typeVersion": 3.2,
       "position": [
         304,
-        840
+        848
       ],
       "id": "209bc668-d200-45ca-9d98-0c54ee6cfd5c",
       "name": "Merge"
@@ -72,7 +72,7 @@
       "typeVersion": 2,
       "position": [
         80,
-        744
+        752
       ],
       "id": "cef2ecd5-97ad-4b49-8127-6585b265bf65",
       "name": "Get rated animes info (mocked BQ response)"
@@ -85,7 +85,7 @@
       "typeVersion": 2,
       "position": [
         528,
-        840
+        848
       ],
       "id": "e13a47e8-dd08-4708-b748-6968a7bb16bf",
       "name": "Add like prop to rated animes"
@@ -99,7 +99,7 @@
       "type": "n8n-nodes-base.stickyNote",
       "position": [
         -240,
-        616
+        624
       ],
       "typeVersion": 1,
       "id": "d3fc1613-c4ff-4e1d-ae21-b11bf86937dd",
@@ -113,7 +113,7 @@
       "typeVersion": 2,
       "position": [
         752,
-        840
+        848
       ],
       "id": "c938e152-d56a-47a7-b548-d415af50ae14",
       "name": "Join user anime ratings"
@@ -127,7 +127,7 @@
       "typeVersion": 2,
       "position": [
         1200,
-        840
+        848
       ],
       "id": "0778ff05-ef2d-440d-8d8c-bf425ae72abb",
       "name": "Join BQ anime base"
@@ -141,7 +141,7 @@
       "typeVersion": 2,
       "position": [
         976,
-        840
+        848
       ],
       "id": "685154c2-ae68-4bd1-ab1f-e9ad195ae6be",
       "name": "Get all animes (mocked BQ response)"
@@ -157,7 +157,7 @@
       "typeVersion": 2.2,
       "position": [
         1456,
-        840
+        848
       ],
       "id": "555ca91c-ad25-4662-ac2a-ccee1ef17d94",
       "name": "Anime recommendations agent"
@@ -171,7 +171,7 @@
       "typeVersion": 1,
       "position": [
         1424,
-        1064
+        1072
       ],
       "id": "99538f81-ae6a-460e-ac75-52c97435dacd",
       "name": "Google Gemini Chat Model",
@@ -184,15 +184,14 @@
     },
     {
       "parameters": {
-        "schemaType": "manual",
-        "inputSchema": "{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\"\n    }\n  ],\n  \"executions_counter\": \"int\"\n}",
+        "jsonSchemaExample": "{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\"\n    }\n  ],\n  \"executions_counter\": \"int\"\n}",
         "autoFix": true
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
         1552,
-        1064
+        1072
       ],
       "id": "f4be2abb-bfe5-4a0d-8b56-afdbcd7b5f5e",
       "name": "Structured Output Parser"
@@ -270,7 +269,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        1928,
+        1936,
         912
       ],
       "id": "a5f0b2f3-57f9-4652-af09-7a0fb045ab39",
@@ -290,7 +289,7 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        2056,
+        2064,
         912
       ],
       "id": "67d2ca56-5cc6-4b7b-b251-acfc3a2efde7",
@@ -309,7 +308,7 @@
       "typeVersion": 2.1,
       "position": [
         -368,
-        840
+        848
       ],
       "id": "9801548b-8bf6-4761-87e4-c1297549f1e1",
       "name": "Webhook",
@@ -365,7 +364,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2632,
+        2640,
         1040
       ],
       "id": "a2165920-5be3-4f9f-bdb2-688e068f2be3",
@@ -413,7 +412,7 @@
       "typeVersion": 1,
       "position": [
         1632,
-        1272
+        1280
       ],
       "id": "c855d2c7-c092-49fd-a6d0-dec9b26feb8b",
       "name": "Google Gemini Chat Model4",
@@ -686,7 +685,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "de9778eb-b65f-4538-84e0-5c6e0710f268",
+  "versionId": "c3b422ec-27a3-4b76-997b-aebecd8b6ca3",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "c1b59109af2c2afce8bd5bf1c9d0b65ab33c6366613d260dbe8bc699a1380574"
