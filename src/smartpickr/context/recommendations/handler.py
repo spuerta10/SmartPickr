@@ -9,7 +9,7 @@ from context.manager import AppContextManager, AppContext
 from shared.views.anime import AnimeView
 
 DEFAULT_NUM_RECOMMENDATIONS: int = 3
-ANIME_RECOMMENDER_ENDPOINT: str = "https://93qygbmezvm1ffvvpwhveun0.hooks.n8n.cloud/webhook-test/74158146-8569-47b2-ae29-bd2e5d29aae0"
+ANIME_RECOMMENDER_ENDPOINT: str = "https://uszvlacs2ccywdasyufuoi4n.hooks.n8n.cloud/webhook-test/74158146-8569-47b2-ae29-bd2e5d29aae0"
 
 def handle_load() -> None:
     controller = RecommendationsController(
