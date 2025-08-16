@@ -1,5 +1,5 @@
 {
-  "name": "My workflow 3",
+  "name": "content_recommendation_wf",
   "nodes": [
     {
       "parameters": {
@@ -18,10 +18,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -144,
-        752
+        -2672,
+        336
       ],
-      "id": "edf23063-3404-41c6-9753-a52f6ce1e1bf",
+      "id": "70ae574e-9d32-43a8-8349-e7c1da257d16",
       "name": "Fetch animes ids"
     },
     {
@@ -41,10 +41,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        80,
-        944
+        -2448,
+        528
       ],
-      "id": "c50d4f99-a740-471d-920c-2a5ed2d177fb",
+      "id": "ff46306c-ae95-47ea-9d6d-5f96b05640c5",
       "name": "Get ratings"
     },
     {
@@ -57,10 +57,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        304,
-        848
+        -2224,
+        432
       ],
-      "id": "209bc668-d200-45ca-9d98-0c54ee6cfd5c",
+      "id": "546b8773-dff9-4f17-8ee1-28970d0a9290",
       "name": "Merge"
     },
     {
@@ -71,10 +71,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        80,
-        752
+        -2448,
+        336
       ],
-      "id": "cef2ecd5-97ad-4b49-8127-6585b265bf65",
+      "id": "e33ad071-0b95-4eae-bf60-78608c4f3446",
       "name": "Get rated animes info (mocked BQ response)"
     },
     {
@@ -84,10 +84,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        528,
-        848
+        -2000,
+        432
       ],
-      "id": "e13a47e8-dd08-4708-b748-6968a7bb16bf",
+      "id": "8388a05e-54ed-4a95-907e-c46e66b1f45d",
       "name": "Add like prop to rated animes"
     },
     {
@@ -98,11 +98,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -240,
-        624
+        -2768,
+        208
       ],
       "typeVersion": 1,
-      "id": "d3fc1613-c4ff-4e1d-ae21-b11bf86937dd",
+      "id": "770a1cb1-c575-4587-9d11-5887a8f1b5ad",
       "name": "Sticky Note"
     },
     {
@@ -112,10 +112,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        752,
-        848
+        -1776,
+        432
       ],
-      "id": "c938e152-d56a-47a7-b548-d415af50ae14",
+      "id": "62554bd0-6962-430e-926f-02f53419e958",
       "name": "Join user anime ratings"
     },
     {
@@ -126,10 +126,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1200,
-        848
+        -1328,
+        432
       ],
-      "id": "0778ff05-ef2d-440d-8d8c-bf425ae72abb",
+      "id": "2ed1988a-969b-44cd-872e-60945c63fb38",
       "name": "Join BQ anime base"
     },
     {
@@ -140,10 +140,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        976,
-        848
+        -1552,
+        432
       ],
-      "id": "685154c2-ae68-4bd1-ab1f-e9ad195ae6be",
+      "id": "6bf22fc2-3c2b-423b-97a1-15ae308d78d4",
       "name": "Get all animes (mocked BQ response)"
     },
     {
@@ -156,10 +156,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        1456,
-        848
+        -1072,
+        432
       ],
-      "id": "555ca91c-ad25-4662-ac2a-ccee1ef17d94",
+      "id": "4e02f84d-814d-4687-979d-134e039c2bfb",
       "name": "Anime recommendations agent"
     },
     {
@@ -170,30 +170,30 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        1424,
-        1072
+        -1104,
+        656
       ],
-      "id": "99538f81-ae6a-460e-ac75-52c97435dacd",
+      "id": "d1c15c55-6ab1-4df5-be6b-e1cb2bc76d7f",
       "name": "Google Gemini Chat Model",
       "credentials": {
         "googlePalmApi": {
-          "id": "thOk1NWBRNXfvSLt",
+          "id": "0ocO5NtT1NIFfrNO",
           "name": "Google Gemini(PaLM) Api account"
         }
       }
     },
     {
       "parameters": {
-        "jsonSchemaExample": "{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\"\n    }\n  ],\n  \"executions_counter\": \"int\"\n}",
+        "jsonSchemaExample": "{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\"\n    }\n  ],\n  \"executions_counter\": \"int. If not set, set it to 1.\"\n}",
         "autoFix": true
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        1552,
-        1072
+        -976,
+        656
       ],
-      "id": "f4be2abb-bfe5-4a0d-8b56-afdbcd7b5f5e",
+      "id": "2723c651-68dc-4eb6-8947-7de1f3d1d58a",
       "name": "Structured Output Parser"
     },
     {
@@ -206,27 +206,28 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        2528,
-        432
+        144,
+        0
       ],
-      "id": "df008433-e94a-4184-84b0-b122cf079a6f",
+      "id": "70f211fe-3f47-4713-b510-d8a1f9f07089",
       "name": "Description improver agent"
     },
     {
       "parameters": {
+        "modelName": "models/gemini-2.0-flash-lite",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        2496,
-        656
+        112,
+        224
       ],
-      "id": "a4db1359-8dd0-49bc-b995-2143c735f1f4",
+      "id": "3f43cb98-dba9-4771-841b-5e1e733c0867",
       "name": "Google Gemini Chat Model1",
       "credentials": {
         "googlePalmApi": {
-          "id": "thOk1NWBRNXfvSLt",
+          "id": "0ocO5NtT1NIFfrNO",
           "name": "Google Gemini(PaLM) Api account"
         }
       }
@@ -234,65 +235,65 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=Role\nYou are an Anime Recommendation Quality Evaluator. Your job is to:\n\nAnalyze a list of animes that a user has rated.\n\nAnalyze the recommendations provided by another recommender model.\n\nDetermine whether each recommendation is Good (Approved = True) or Bad (Approved = False).\n\nInputs explanation\nYou will receive:\n\nuser_rated_animes: A list of anime objects the user has rated, including id, title, rating, and optionally genres or tags.\n\nmodel_recommendations: A list of anime objects recommended by a previous model, with id, title, and description.\n\nInputs\n- user_rated_animes: {{ $('Join user anime ratings').first().json.anime_ratings.toJsonString() }}\n- model_recommendations: {{ $('Anime recommendations agent').item.json.output.recommendations.toJsonString() }}\n\nEvaluation Criteria\nMark a recommendation as Approved = True if:\n\n- High Thematic Similarity – It shares multiple main genres, themes, or settings with the user’s highly-rated animes.\n\n- Tone & Style Match – The mood, pacing, and storytelling style are close to the liked animes.\n\n- Audience Alignment – The target audience is similar (e.g., shounen vs. seinen).\n\n- Popularity & Quality – It has good reception and is recognized among fans as similar to the liked shows.\n\nMark as Approved = False if:\n\n- The genre, tone, or theme is too different from the user’s liked animes.\n\n- It is unrelated in plot, style, or audience.\n\n- It appears in the user’s disliked or low-rated list.\n\nWhen regenerating recommendations:\n\n- Only propose titles that strongly match the user’s highly-rated animes.\n\n- Do not repeat the original bad recommendations.\n\nInstructions\n\n1. Review user_rated_animes and identify the characteristics of the animes rated highly.\n\n2. Evaluate each model_recommendation according to the Evaluation Criteria.\n\n3. Output an Approved field for each recommendation.\n\n4. Always output recommendations\n\nEnsure the final recommendation list length does not exceed max_recommendations.\n\nProvide a short explanation for each approval/rejection.\n\nExample Output Schema\n{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\",\n      \"approved\": \"boolean. If the current recommendation if approved or not.\",\n      \"reason\": \"string. The reason as of why the recommendation was not approved.\"\n    }\n  ],\n  \"all_approved\": \"boolean. Whether all recommendations are approved.\",\n  \"executions_counter\": \"int\"\n}",
+        "text": "=Role\nYou are an Anime Recommendation Quality Evaluator. Your job is to:\n\nAnalyze a list of animes that a user has rated.\n\nAnalyze the recommendations provided by another recommender model.\n\nDetermine whether each recommendation is Good (Approved = True) or Bad (Approved = False).\n\nInputs explanation\nYou will receive:\n\nuser_rated_animes: A list of anime objects the user has rated, including id, title, rating, and optionally genres or tags.\n\nmodel_recommendations: A list of anime objects recommended by a previous model, with id, title, and description.\n\nInputs\n- user_rated_animes: {{ $('Join user anime ratings').first().json.anime_ratings.toJsonString() }}\n- model_recommendations: {{ $('Anime recommendations agent').item.json.output.recommendations.toJsonString() }}\n\nEvaluation Criteria\nMark a recommendation as Approved = True if:\n\n- High Thematic Similarity – It shares multiple main genres, themes, or settings with the user’s highly-rated animes.\n\n- Tone & Style Match – The mood, pacing, and storytelling style are close to the liked animes.\n\n- Audience Alignment – The target audience is similar (e.g., shounen vs. seinen).\n\n- Popularity & Quality – It has good reception and is recognized among fans as similar to the liked shows.\n\nMark as Approved = False if:\n\n- The genre, tone, or theme is too different from the user’s liked animes.\n\n- It is unrelated in plot, style, or audience.\n\n- It appears in the user’s disliked or low-rated list.\n\nWhen regenerating recommendations:\n\n- Only propose titles that strongly match the user’s highly-rated animes.\n\n- Do not repeat the original bad recommendations.\n\nInstructions\n\n1. Review user_rated_animes and identify the characteristics of the animes rated highly.\n\n2. Evaluate each model_recommendation according to the Evaluation Criteria.\n\n3. Output an Approved field for each recommendation.\n\n4. Always output recommendations\n\nEnsure the final recommendation list length does not exceed max_recommendations.\n\nProvide a short explanation for each approval/rejection.\n\nExample Output Schema\n{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\",\n      \"approved\": \"boolean. If the current recommendation if approved or not.\",\n      \"reason\": \"string. The reason as of why the recommendation was not approved.\"\n    }\n  ],\n  \"all_approved\": true,\n  \"executions_counter\": \"int\"\n}",
         "hasOutputParser": true,
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        1920,
-        688
+        -576,
+        256
       ],
-      "id": "8e6bd6e6-cec7-4539-a60c-36690537e1eb",
+      "id": "7b7d0e77-c3a9-4d27-9517-ffe7182ab3a3",
       "name": "Recommendations analyzer"
     },
     {
       "parameters": {
-        "schemaType": "manual",
-        "inputSchema": "{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"image_url\": \"string\"\n    }\n  ]\n}",
+        "jsonSchemaExample": "{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"image_url\": \"string\"\n    }\n  ]\n}",
         "autoFix": true
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        2624,
-        656
+        240,
+        224
       ],
-      "id": "c51c7ee6-6ba7-425d-81cc-b8e0bd912b6a",
+      "id": "7ac52950-0bd4-4155-8521-6ff3e1734283",
       "name": "Structured Output Parser1"
     },
     {
       "parameters": {
+        "modelName": "models/gemini-2.0-flash",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        1936,
-        912
+        -608,
+        480
       ],
-      "id": "a5f0b2f3-57f9-4652-af09-7a0fb045ab39",
+      "id": "e7406083-1942-4518-80fe-312869ddc5ed",
       "name": "Google Gemini Chat Model2",
       "credentials": {
         "googlePalmApi": {
-          "id": "thOk1NWBRNXfvSLt",
+          "id": "0ocO5NtT1NIFfrNO",
           "name": "Google Gemini(PaLM) Api account"
         }
       }
     },
     {
       "parameters": {
-        "schemaType": "manual",
-        "inputSchema": "{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\",\n      \"approved\": \"boolean. If the current recommendation if approved or not.\",\n      \"reason\": \"string. The reason as of why the recommendation was not approved.\"\n    }\n  ],\n  \"all_approved\": \"boolean. Whether all recommendations were approved or not.\",\n  \"executions_counter\": \"int\"\n}"
+        "jsonSchemaExample": "{\n  \"recommendations\": [\n    {\n      \"id\": \"int\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"seasons\": \"int\",\n      \"episodes\": \"int\",\n      \"alikeness\": \"float\",\n      \"image_url\": \"string\",\n      \"approved\": \"boolean. If the current recommendation if approved or not.\",\n      \"reason\": \"string. The reason as of why the recommendation was not approved.\"\n    }\n  ],\n  \"all_approved\": true,\n  \"executions_counter\": \"int\"\n}",
+        "autoFix": true
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        2064,
-        912
+        -480,
+        480
       ],
-      "id": "67d2ca56-5cc6-4b7b-b251-acfc3a2efde7",
+      "id": "6d286d96-2c35-4410-b43f-2069359587d7",
       "name": "Structured Output Parser2"
     },
     {
@@ -307,10 +308,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -368,
-        848
+        -2896,
+        432
       ],
-      "id": "9801548b-8bf6-4761-87e4-c1297549f1e1",
+      "id": "e3584cb9-5942-483e-9a0f-779e520c6222",
       "name": "Webhook",
       "webhookId": "74158146-8569-47b2-ae29-bd2e5d29aae0"
     },
@@ -351,10 +352,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        2272,
-        688
+        -112,
+        256
       ],
-      "id": "5ddef752-f368-4672-9757-bada91d0cb40",
+      "id": "8e2853f1-b8f0-4da9-a89d-fe7b3a0e4da7",
       "name": "If"
     },
     {
@@ -364,10 +365,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2640,
-        1040
+        248,
+        632
       ],
-      "id": "a2165920-5be3-4f9f-bdb2-688e068f2be3",
+      "id": "219c44d2-5b36-4d65-bfee-bb57baff0379",
       "name": "Increase executions counter"
     },
     {
@@ -379,10 +380,10 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        2992,
-        640
+        608,
+        208
       ],
-      "id": "11e36dca-1fff-4e3f-8bd9-2706a60529d3",
+      "id": "23b0f16b-ec37-410e-ac83-0ccf773f6d6a",
       "name": "Respond to Webhook"
     },
     {
@@ -392,33 +393,54 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        2704,
-        864
+        320,
+        432
       ],
-      "id": "02d9e949-6ecc-4a94-b1a4-aa5c3d3a6073",
+      "id": "73d2a596-7fcf-48ac-80c1-3ad7a7a1fa34",
       "name": "Google Gemini Chat Model3",
       "credentials": {
         "googlePalmApi": {
-          "id": "thOk1NWBRNXfvSLt",
+          "id": "0ocO5NtT1NIFfrNO",
           "name": "Google Gemini(PaLM) Api account"
         }
       }
     },
     {
       "parameters": {
+        "modelName": "models/gemini-2.5-flash-lite",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        1632,
-        1280
+        -896,
+        864
       ],
-      "id": "c855d2c7-c092-49fd-a6d0-dec9b26feb8b",
+      "id": "d65f8474-dd5b-4d0b-bcbb-ea09541b48ea",
       "name": "Google Gemini Chat Model4",
       "credentials": {
         "googlePalmApi": {
-          "id": "thOk1NWBRNXfvSLt",
+          "id": "0ocO5NtT1NIFfrNO",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        688
+      ],
+      "id": "02a12a13-bbea-4db6-98f4-6f940c5492f4",
+      "name": "Google Gemini Chat Model5",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "0ocO5NtT1NIFfrNO",
           "name": "Google Gemini(PaLM) Api account"
         }
       }
@@ -679,17 +701,28 @@
           }
         ]
       ]
+    },
+    "Google Gemini Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "c3b422ec-27a3-4b76-997b-aebecd8b6ca3",
+  "versionId": "6d1131f5-8939-4b73-aafe-fb770914961f",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "c1b59109af2c2afce8bd5bf1c9d0b65ab33c6366613d260dbe8bc699a1380574"
+    "instanceId": "ff78cac8a1226869adb6fe373578b2106a46fb0ea05b28ae654d1048352a809c"
   },
-  "id": "Jb7Ez8sjLHnu5PM9",
+  "id": "CBuqZTrfr2X9sNo9",
   "tags": []
 }
