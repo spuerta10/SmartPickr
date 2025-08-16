@@ -90,6 +90,9 @@ class BaseController:
         Returns:
             bool: True if all ratings are complete, False otherwise.
         """
+        if self.session_key not in st.session_state:
+            st.session_state[self.session_key] = 0   # TODO: discover why this is necesary
+
         if st.session_state[self.session_key] >= len(self.animes):
             AppContextManager.on_context_complete(self.type)
             return True

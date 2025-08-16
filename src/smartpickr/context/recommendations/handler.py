@@ -12,8 +12,11 @@ DEFAULT_NUM_RECOMMENDATIONS: int = 3
 ANIME_RECOMMENDER_ENDPOINT: str = "https://93qygbmezvm1ffvvpwhveun0.hooks.n8n.cloud/webhook-test/74158146-8569-47b2-ae29-bd2e5d29aae0"
 
 def handle_load() -> None:
-    controller = RecommendationsController(ANIME_RECOMMENDER_ENDPOINT)
-    LoadingView.render(controller=controller, n_recommendations=DEFAULT_NUM_RECOMMENDATIONS)
+    controller = RecommendationsController(
+        recommender_url=ANIME_RECOMMENDER_ENDPOINT,
+        n_recommendations=DEFAULT_NUM_RECOMMENDATIONS
+    )
+    LoadingView.render(controller=controller)
     AppContextManager.on_context_complete(AppContext.LOADING)
 
 
@@ -36,9 +39,7 @@ def handle_recommendations() -> None:
     Returns:
         None
     """
-    controller = RecommendationsController(
-        recommender_url=ANIME_RECOMMENDER_ENDPOINT
-    )
+    controller = RecommendationsController()
     if not controller.finished_ratings():
         current_anime = controller.get_current_anime()
         result = AnimeView.render(**asdict(current_anime))
@@ -51,3 +52,4 @@ def handle_recommendations() -> None:
 def handle_summary():
     controller = RecommendationsController()
     SumaryView.render(controller=controller)
+    controller.clean_recommendations()
