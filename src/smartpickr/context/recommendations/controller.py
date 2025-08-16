@@ -59,6 +59,5 @@ class RecommendationsController(BaseController):
         print('Cleaning recommendations')
         start_recommendations_idx:int = len(self.animes) - self.n_recommendations
         self.animes = self.animes[0:start_recommendations_idx]  # leave calibration animes in the list
-        print(self.animes)
         
         
