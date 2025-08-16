@@ -8,6 +8,12 @@ services:
     restart: unless-stopped
     stdin_open: true
     tty: true
+    environment:
+      - N8N_DEFAULT_TIMEOUT=600000          # 10 minutes in milliseconds
+      - EXECUTIONS_TIMEOUT=3600             # 1 hour in seconds  
+      - EXECUTIONS_TIMEOUT_MAX=3600         # Max execution time in seconds
+      - WEBHOOK_TIMEOUT=600000              # Webhook timeout in milliseconds
+      - N8N_NODE_FUNCTION_TIMEOUT=600000    # Individual node timeout in milliseconds
     networks:
       - smartpickr-net
   
